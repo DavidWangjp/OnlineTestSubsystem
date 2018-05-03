@@ -1,0 +1,9 @@
+{% if tests.all %}
+    <ul>
+        {% for test in tests.all %}
+            <li><a href="{% url 'online_test:test_detail' test.id  %}">{{ test.name }}</a> </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No test.</p>
+{% endif %}
