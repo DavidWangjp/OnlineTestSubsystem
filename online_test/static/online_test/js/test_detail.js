@@ -172,16 +172,44 @@ function show_time() {
 $(document).ready(function () {
     $('#submit_TF').click(function () {
         const post_data = {};
+        post_data["test_id"] = data_save.test_id;
+        post_data["type"] = "choice";
+        post_data ["csrfmiddlewaretoken"] = $("[name='csrfmiddlewaretoken']").val();
+
         for (let i = 0; i < data_save.TF_problems.length; i++) {
             post_data[data_save.TF_problems[i].id] = $("input[name='problems" + data_save.TF_problems[i].id + "']:checked").val();
         }
-        alert(post_data['1']);
+        // alert(post_data['1']);
+
+        $.ajax({
+            url: data_save.judge_url,
+            type: 'post',
+            dataType: 'json',
+            data: post_data,
+            async: false,
+            success: function (data) {
+            }
+        });
+        alert("提交成功");
     });
     $('#submit_choice').click(function () {
         const post_data = {};
+        post_data["test_id"] = data_save.test_id;
+        post_data["type"] = "true_or_false";
+        post_data ["csrfmiddlewaretoken"] = $("[name='csrfmiddlewaretoken']").val();
+
         for (let i = 0; i < data_save.choice_problems.length; i++) {
             post_data[data_save.choice_problems[i].id] = $("input[name='problems" + data_save.choice_problems[i].id + "']:checked").val();
         }
-        alert(post_data['10']);
+        $.ajax({
+            url: data_save.judge_url,
+            type: 'post',
+            dataType: 'json',
+            data: post_data,
+            async: false,
+            success: function (data) {
+            }
+        });
+        alert("提交成功");
     });
 });

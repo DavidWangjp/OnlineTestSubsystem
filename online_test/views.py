@@ -1,7 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+import datetime
+
+from django.http import HttpRequest, HttpResponse
 from django.views import generic
-from django.http import HttpResponse
-from .models import Test
+
+from .models import Test, ChoiceQuestionAnswerRecord
 
 
 class IndexView(generic.ListView):
@@ -15,3 +17,21 @@ class IndexView(generic.ListView):
 class TestDetail(generic.DetailView):
     model = Test
     template_name = 'online_test/test_detail.html'
+
+
+def judge(request: HttpRequest):
+    if request.method == 'POST':
+        test_id = request.POST['test_id']
+        type = request.POST['type']
+        if type == 'choice':
+            for key, value in request.POST.items():
+                if key != 'test_id' and key != 'type' and key != 'csrfmiddlewaretoken':
+                    record = ChoiceQuestionAnswerRecord.objects.get(test=test_id)
+                    if not record:
+                        record = ChoiceQuestionAnswerRecord(test=test_id, question=int(key), student=None, answer=value,
+                                                            answer_time=datetime.datetime.now())
+                        record.save()
+                    else:
+                        record.answer = value
+                        record.save()
+    return HttpResponse('ok')
