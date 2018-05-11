@@ -2,6 +2,7 @@
 <!DOCTYPE HTML>
 <html>
 <script>
+
     let choice_questions = [];
     {% for choice_question in test.choice_questions.all %}
         choice_questions.push(
@@ -80,6 +81,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="{% static 'online_test/js/light.js' %}"></script>
     <!-- //lined-icons -->
     <script src="{% static 'online_test/js/jquery-1.10.2.min.js' %}"></script>
+
+    <script>
+        $.ajaxSetup({
+            headers: {"X-CSRFToken": '{{csrf_token}}'}
+        });
+    </script>
     <script src="{% static 'online_test/js/test_detail.js' %}"></script>
 
     <script>
