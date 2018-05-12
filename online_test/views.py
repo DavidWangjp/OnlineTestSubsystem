@@ -7,29 +7,41 @@ from .models import Test, ChoiceQuestionAnswerRecord, ChoiceQuestion, TrueOrFals
 
 
 class IndexView(generic.ListView):
+    model = Test
     template_name = 'online_test/index.html'
-    context_object_name = 'tests'
-
-    def get_queryset(self):
-        return Test.objects
 
 
 class TestDetail(generic.DetailView):
     model = Test
     template_name = 'online_test/test_detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-def judge(request: HttpRequest):
+        context['choice_question_answer_record'] = {}
+        for record in ChoiceQuestionAnswerRecord.objects.filter(test=self.object):
+            context['choice_question_answer_record'][record.id] = record.answer
+
+        context['true_or_false_question_answer_record'] = {}
+        for record in TrueOrFalseQuestionAnswerRecord.objects.filter(test=self.object):
+            context['true_or_false_question_answer_record'][record.id] = 'T' if record.answer else 'F'
+
+        return context
+
+
+def submit_answer(request: HttpRequest):
     if request.method == 'POST':
         test_id = int(request.POST['test_id'])
         question_type = request.POST['type']
 
         if question_type == 'choice':
             for key, value in request.POST.items():
+                print(key, value)
                 if key != 'test_id' and key != 'type':
                     try:
                         record = ChoiceQuestionAnswerRecord.objects.get(test=test_id)
                         record.answer = value
+                        record.answer_time = timezone.now()
                         record.save()
                     except ChoiceQuestionAnswerRecord.DoesNotExist:
                         record = ChoiceQuestionAnswerRecord(
@@ -44,6 +56,7 @@ def judge(request: HttpRequest):
         elif question_type == 'true_or_false':
             for key, value in request.POST.items():
                 if key != 'test_id' and key != 'type':
+                    print(key, value)
                     try:
                         record = TrueOrFalseQuestionAnswerRecord.objects.get(test=test_id)
                         record.answer = (value == 'T')

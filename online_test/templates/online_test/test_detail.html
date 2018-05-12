@@ -1,4 +1,5 @@
 {% load static %}
+{% load extratags %}
 <!DOCTYPE HTML>
 <html>
 <script>
@@ -14,29 +15,35 @@
                 "B": "{{ choice_question.choice_b|upper }}",
                 "C": "{{ choice_question.choice_c|upper }}",
                 "D": "{{ choice_question.choice_d|upper }}",
-                "choose": null
+                "choose": "{{ choice_question_answer_record | get_value:choice_question.id }}"
             }
         );
     {% endfor %}
+    {#    {% for id, choice in choice_question_answer_record.items %}#}
+    {#choice_questions.find(record => record['id'] === "{{ id }}")['choose'] = "{{ choice }}";#}
+    {#        for (let i = 0; i < choice_questions.length; i++)#}
+    {#            if (choice_questions[i].id === "{{ id }}")#}
+    {#                choice_questions[i].choose = "{{ choice }}";#}
+    {#    {% endfor %}#}
 
     let true_or_false_questions = [];
     {% for true_or_false_question in test.true_or_false_questions.all %}
-        let solution;
-        {% if true_or_false_question.solution %}
-            solution = "T";
-        {% else %}
-            solution = "F";
-        {% endif %}
-
         true_or_false_questions.push(
             {
                 "id": "{{  true_or_false_question.id }}",
                 "description": "{{ true_or_false_question.content }}",
                 "score": "{{ true_or_false_question.score }}",
-                "choose": null
+                "choose": "{{ true_or_false_question_answer_record | get_value:true_or_false_question.id }}"
             }
         );
     {% endfor %}
+    {#    {% for id, choice in true_or_false_question_answer_record.items %}#}
+    {#true_or_false_questions.find(record => record['id'] === "{{ id }}")['choose'] = "{{ choice }}";#}
+    {#        for (let i = 0; i < true_or_false_questions.length; i++)#}
+    {#            if (true_or_false_questions[i].id === "{{ id }}")#}
+    {#                true_or_false_questions[i].choose = "{{ choice }}";#}
+    {#    {% endfor %}#}
+
 
     const data = {
         "judge_url": "{% url "online_test:judge" %}",

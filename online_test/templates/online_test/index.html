@@ -1,6 +1,6 @@
-{% if tests.all %}
+{% if object_list %}
     <ul>
-        {% for test in tests.all %}
+        {% for test in object_list %}
             <li><a href="{% url 'online_test:test_detail' test.id  %}">{{ test.name }}</a> </li>
         {% endfor %}
     </ul>
