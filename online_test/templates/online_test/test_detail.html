@@ -46,7 +46,7 @@
 
 
     const data = {
-        "judge_url": "{% url "online_test:judge" %}",
+        "judge_url": "{% url 'online_test:judge' %}",
         "test_id": "{{ test.id }}",
         "title": "{{ test.name }}",
         "due": "{{ test.end_time|date:"Y/m/d H:i:s"}}",
@@ -300,7 +300,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </a>
                 <ul>
                     <li>
-                        <a href="test_detail.html"> 在线答题</a>
+                        <a href="{% url 'online_test:index' %}"> 在线答题</a>
                     </li>
                     <li>
                         <a href="validation.html">Validation</a>

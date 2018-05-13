@@ -35,7 +35,6 @@
 //     ]
 // };
 
-
 let data_save;
 
 $(document).ready(function () {
@@ -63,9 +62,9 @@ $(document).ready(function () {
                 </p>\
                 <div class="problems-answer problems-tof">\
                 <label>\
-                    <input name="problems' + data.TF_problems[i].id + '" type="radio" id="' + data.TF_problems[i].id + '_T" value="T">T</label>\
+                    <input name="TF_problems' + data.TF_problems[i].id + '" type="radio" id="' + data.TF_problems[i].id + '_T" value="T">T</label>\
                 <label>\
-                    <input name="problems' + data.TF_problems[i].id + '" type="radio" id="' + data.TF_problems[i].id + '_F" value="F">F</label>\
+                    <input name="TF_problems' + data.TF_problems[i].id + '" type="radio" id="' + data.TF_problems[i].id + '_F" value="F">F</label>\
                 </div>\
                 <p></p>';
         problems = problems + p;
@@ -89,13 +88,13 @@ $(document).ready(function () {
                 <div class="problems-answer problems-tof">\
                 <form>\
                 <label>\
-                    <input name="problems' + data.choice_problems[i].id + '" type="radio"  id="' + data.choice_problems[i].id + '_A" value="A">A.' + data.choice_problems[i].A + '</label>\
+                    <input name="choice_problems' + data.choice_problems[i].id + '" type="radio"  id="' + data.choice_problems[i].id + '_A" value="A">A.' + data.choice_problems[i].A + '</label>\
                 <label>\
-                    <input name="problems' + data.choice_problems[i].id + '" type="radio"  id="' + data.choice_problems[i].id + '_B" value="B">B.' + data.choice_problems[i].B + '</label>\
+                    <input name="choice_problems' + data.choice_problems[i].id + '" type="radio"  id="' + data.choice_problems[i].id + '_B" value="B">B.' + data.choice_problems[i].B + '</label>\
                 <label>\
-                    <input name="problems' + data.choice_problems[i].id + '" type="radio"  id="' + data.choice_problems[i].id + '_C" value="C">C.' + data.choice_problems[i].C + '</label>\
+                    <input name="choice_problems' + data.choice_problems[i].id + '" type="radio"  id="' + data.choice_problems[i].id + '_C" value="C">C.' + data.choice_problems[i].C + '</label>\
                 <label>\
-                    <input name="problems' + data.choice_problems[i].id + '" type="radio"  id="' + data.choice_problems[i].id + '_D" value="D">D.' + data.choice_problems[i].D + '</label>\
+                    <input name="choice_problems' + data.choice_problems[i].id + '" type="radio"  id="' + data.choice_problems[i].id + '_D" value="D">D.' + data.choice_problems[i].D + '</label>\
                 </form>\
                 </div>\
                 <p></p>';
@@ -176,7 +175,7 @@ $(document).ready(function () {
         post_data["type"] = "true_or_false";
 
         for (let i = 0; i < data_save.TF_problems.length; i++) {
-            post_data[data_save.TF_problems[i].id] = $("input[name='problems" + data_save.TF_problems[i].id + "']:checked").val();
+            post_data[data_save.TF_problems[i].id] = $("input[name='TF_problems" + data_save.TF_problems[i].id + "']:checked").val();
         }
 
         $.ajax({
@@ -197,7 +196,7 @@ $(document).ready(function () {
         post_data["type"] = "choice";
 
         for (let i = 0; i < data_save.choice_problems.length; i++) {
-            post_data[data_save.choice_problems[i].id] = $("input[name='problems" + data_save.choice_problems[i].id + "']:checked").val();
+            post_data[data_save.choice_problems[i].id] = $("input[name='choice_problems" + data_save.choice_problems[i].id + "']:checked").val();
         }
         $.ajax({
             url: data_save.judge_url,
