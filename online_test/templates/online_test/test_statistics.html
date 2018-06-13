@@ -1,0 +1,11 @@
+{{ avg }}
+{{ total }}
+<ul>
+    {% for student in students %}
+        <li>
+            <a href="{% url 'online_test:test_statistics_student_record' object.pk student.id %}">{{ student.name }}</a>
+            {{ student.score }}
+        </li>
+    {% endfor %}
+
+</ul>

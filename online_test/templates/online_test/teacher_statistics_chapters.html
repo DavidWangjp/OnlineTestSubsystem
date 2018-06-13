@@ -1,0 +1,5 @@
+{% for chapter, info in object_list.items %}
+    <ul>
+        <li>{{ chapter.chapter }} {{ info.correct_num }} {{ info.total_num }}</li>
+    </ul>
+{% endfor %}

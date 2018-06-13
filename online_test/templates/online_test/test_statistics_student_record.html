@@ -1,0 +1,34 @@
+{{ score }} {{ total_score }}
+{% for record in choice_question_answer_record %}
+    <ul>
+        <li>
+            {{ record.question.content }}
+            {{ record.question.choice_a }}
+            {{ record.question.choice_b }}
+            {{ record.question.choice_c }}
+            {{ record.question.choice_d }}
+        </li>
+        <li>{{ record.answer }} {{ record.question.solution }}
+            {% if record.answer == record.question.solution %}
+                正确
+            {% else %}
+                错误
+            {% endif %}
+        </li>
+    </ul>
+{% endfor %}
+{% for record in true_or_false_question_answer_record    %}
+    <ul>
+        <li>
+            {{ record.question.content }}
+            {{ record.question.solution }}
+        </li>
+        <li>{{ record.answer }} {{ record.question.solution }}
+            {% if record.answer == record.question.solution %}
+                正确
+            {% else %}
+                错误
+            {% endif %}
+        </li>
+    </ul>
+{% endfor %}

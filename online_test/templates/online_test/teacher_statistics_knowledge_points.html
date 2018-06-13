@@ -1,0 +1,5 @@
+{% for knowledge_point, info in object_list.items %}
+    <ul>
+        <li>{{ knowledge_point.knowledge_point }} {{ info.correct_num }} {{ info.total_num }}</li>
+    </ul>
+{% endfor %}

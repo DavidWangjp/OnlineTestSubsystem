@@ -1,0 +1,5 @@
+<ul>
+{% for test in object_list %}
+<li><a href="{% url 'online_test:test_statistics' test.id %}">{{ test.name }}</a> </li>
+{% endfor %}
+</ul>
