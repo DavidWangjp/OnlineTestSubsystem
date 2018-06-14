@@ -23,6 +23,20 @@ class Student(models.Model):
         return self.name
 
 
+class Chapter(models.Model):
+    chapter = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.chapter
+
+
+class KnowledgePoint(models.Model):
+    knowledge_point = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.knowledge_point
+
+
 class ChoiceQuestion(models.Model):
     content = models.TextField()
 
@@ -36,6 +50,9 @@ class ChoiceQuestion(models.Model):
     score = models.PositiveSmallIntegerField(default=1)
 
     creator = models.ForeignKey(Teacher, on_delete=models.SET_NULL, blank=True, null=True)
+
+    chapter = models.ForeignKey(Chapter, on_delete=models.SET_NULL, blank=True, null=True)
+    knowledge_point = models.ForeignKey(KnowledgePoint, on_delete=models.SET_NULL, blank=True, null=True)
 
     add_time = models.DateTimeField('time added')
     latest_modify_time = models.DateTimeField('time latest modified')
@@ -53,6 +70,9 @@ class TrueOrFalseQuestion(models.Model):
 
     creator = models.ForeignKey(Teacher, on_delete=models.SET_NULL, blank=True, null=True)
 
+    chapter = models.ForeignKey(Chapter, on_delete=models.SET_NULL, blank=True, null=True)
+    knowledge_point = models.ForeignKey(KnowledgePoint, on_delete=models.SET_NULL, blank=True, null=True)
+
     add_time = models.DateTimeField('time added')
     latest_modify_time = models.DateTimeField('time latest modified')
 
@@ -67,6 +87,8 @@ class Test(models.Model):
     true_or_false_questions = models.ManyToManyField(TrueOrFalseQuestion, null=True, blank=True)
 
     creator = models.ForeignKey(Teacher, on_delete=models.SET_NULL, blank=True, null=True)
+
+    attend_students = models.ManyToManyField(Student, null=True, blank=True)
 
     start_time = models.DateTimeField('date starts')
     end_time = models.DateTimeField('date ends')
@@ -87,5 +109,5 @@ class TrueOrFalseQuestionAnswerRecord(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     question = models.ForeignKey(TrueOrFalseQuestion, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.SET_NULL, blank=True, null=True)
-    answer = models.BooleanField(default=None)
+    answer = models.NullBooleanField(default=None, blank=True, null=True)
     answer_time = models.DateTimeField('time answered', default=None)

@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>在线答题</title>
+    <title>教师成绩管理系统</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="Gretong Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
@@ -70,34 +70,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <table class="table">
                     <thead>
                         <tr>
-                            <th width="400px">
-                                标题
+                            <th>
+                                章节
                             </th>
                             <th>
-                                创建者
+                                总成绩
                             </th>
                             <th>
-                                开始时间
-                            </th>
-                            <th>
-                                结束时间
+                                总分
                             </th>
                         </tr>
                     </thead>
-                    {% if object_list %}
-                        {% for test in object_list %}
+                    {% if object_list.items %}
+                        {% for knowledge_point, info in object_list.items %}
                         <tr>
                             <td width="50%">
-                                <a href="{% url 'online_test:test_detail' test.id  %}">{{ test.name }}</a>
+                                {{ knowledge_point.knowledge_point }}
                             </td>
                             <td>
-                                {{ test.creator }}
+                                {{ info.correct_num }}
                             </td>
                             <td>
-                                {{ test.start_time }}
-                            </td>
-                            <td>
-                                {{ test.end_time }}
+                                {{ info.total_num }}
                             </td>
                         </tr>
                         {% endfor %}
@@ -159,10 +153,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </a>
                 <ul>
                     <li>
-                        <a href="{% url 'online_test:index' %}"> 选择题库</a>
+                        <a href="{% url 'online_test:teacher_statistics_tests' %}"> 查看题库 </a>
                     </li>
                     <li>
-                        <a href="{% url 'online_test:student_statistics' %}">成绩统计</a>
+                        <a href="{% url 'online_test:teacher_statistics_chapters' %}">章节统计</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'online_test:teacher_statistics_knowledge_points' %}"> 知识点统计 </a>
                     </li>
                 </ul>
             </li>

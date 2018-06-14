@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>在线答题</title>
+    <title>成绩统计</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="Gretong Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
@@ -52,10 +52,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <li>
                                 <a href="contact.html">Contact us</a>
                             </li>
+                            <!-- |
+                            <li>
+                                <a href="checkout.html">Delivery information</a>
+                            </li> -->
                         </ul>
                     </div>
                     <div class="top_left">
                         <h2>
+                            <!-- <span></span> Call us : 032 2352 782</h2> -->
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -77,31 +82,29 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 创建者
                             </th>
                             <th>
-                                开始时间
+                                结束时间
                             </th>
                             <th>
-                                结束时间
+                                状态
                             </th>
                         </tr>
                     </thead>
-                    {% if object_list %}
                         {% for test in object_list %}
                         <tr>
                             <td width="50%">
-                                <a href="{% url 'online_test:test_detail' test.id  %}">{{ test.name }}</a>
+                                <a href="{% url 'online_test:test_statistics_student_record' test.id student_id %}">{{ test.name }}</a>
                             </td>
                             <td>
                                 {{ test.creator }}
                             </td>
                             <td>
-                                {{ test.start_time }}
+                                {{ test.end_time }}
                             </td>
                             <td>
-                                {{ test.end_time }}
+                                已批改
                             </td>
                         </tr>
                         {% endfor %}
-                    {% endif %}
                 </table>
 
 

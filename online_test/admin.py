@@ -13,6 +13,8 @@ class ChoiceQuestionAdmin(admin.ModelAdmin):
         ('Solution', {'fields': ['solution']}),
         ('Score', {'fields': ['score']}),
         ('Creator', {'fields': ['creator']}),
+        ('Chapter', {'fields': ['chapter']}),
+        ('Knowledge Point', {'fields': ['knowledge_point']}),
         ('Time information', {'fields': ['add_time', 'latest_modify_time']})
     ]
 
@@ -26,6 +28,8 @@ class TrueOrFalseQuestionAdmin(admin.ModelAdmin):
         ('Solution', {'fields': ['solution']}),
         ('Score', {'fields': ['score']}),
         ('Creator', {'fields': ['creator']}),
+        ('Chapter', {'fields': ['chapter']}),
+        ('Knowledge Point', {'fields': ['knowledge_point']}),
         ('Time information', {'fields': ['add_time', 'latest_modify_time']})
     ]
 
@@ -37,13 +41,17 @@ class TestAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Name', {'fields': ['name']}),
         ('Creator', {'fields': ['creator']}),
+        ('Attend Students', {'fields': ['attend_students']}),
         ('Questions', {'fields': ['choice_questions', 'true_or_false_questions']}),
         ('Time information', {'fields': ['start_time', 'end_time']})
     ]
-    filter_horizontal = ('choice_questions', 'true_or_false_questions')
+    filter_horizontal = ('attend_students', 'choice_questions', 'true_or_false_questions')
 
 
 admin.site.register(Test, TestAdmin)
 
 admin.site.register(ChoiceQuestionAnswerRecord)
 admin.site.register(TrueOrFalseQuestionAnswerRecord)
+
+admin.site.register(Chapter)
+admin.site.register(KnowledgePoint)

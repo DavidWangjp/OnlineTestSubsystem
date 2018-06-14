@@ -2,49 +2,6 @@
 {% load extratags %}
 <!DOCTYPE HTML>
 <html>
-<script>
-
-    let choice_questions = [];
-    {% for choice_question in test.choice_questions.all %}
-        choice_questions.push(
-            {
-                "id": "{{  choice_question.id }}",
-                "description": "{{ choice_question.content }}",
-                "score": "{{ choice_question.score }}",
-                "A": "{{ choice_question.choice_a|upper }}",
-                "B": "{{ choice_question.choice_b|upper }}",
-                "C": "{{ choice_question.choice_c|upper }}",
-                "D": "{{ choice_question.choice_d|upper }}",
-                "choose": "{{ choice_question_answer_record | get_value:choice_question.id }}"
-            }
-        );
-    {% endfor %}
-
-    let true_or_false_questions = [];
-    {% for true_or_false_question in test.true_or_false_questions.all %}
-        true_or_false_questions.push(
-            {
-                "id": "{{  true_or_false_question.id }}",
-                "description": "{{ true_or_false_question.content }}",
-                "score": "{{ true_or_false_question.score }}",
-                "choose": "{{ true_or_false_question_answer_record | get_value:true_or_false_question.id }}"
-            }
-        );
-    {% endfor %}
-
-
-    const data = {
-        "judge_url": "{% url 'online_test:judge' %}",
-        "test_id": "{{ test.id }}",
-        "title": "{{ test.name }}",
-        "due": "{{ test.end_time|date:"Y/m/d H:i:s"}}",
-        "choice_problems": choice_questions,
-        "TF_problems": true_or_false_questions
-    };
-</script>
-<script>
-
-</script>
 <head>
     <title>{{ test.name }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -77,12 +34,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- //lined-icons -->
     <script src="{% static 'online_test/js/jquery-1.10.2.min.js' %}"></script>
 
-    <script>
-        $.ajaxSetup({
-            headers: {"X-CSRFToken": '{{csrf_token}}'}
-        });
-    </script>
-    <script src="{% static 'online_test/js/test_detail.js' %}"></script>
 
     <script>
         $(function () {
@@ -122,19 +73,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         <div class="content">
             <div class="women_main">
-                <font size="6" color="black" id="test_title"></font>
+                <font size="6" color="black" id="test_title">{{ test.name }}</font>
 
-                <span class="alert alert-warning" style="float:right">
-						剩余时间: <span id="time_left"></span>
-					</span>
                 <hr>
 
                 <ol id="test_total">
-                    <li id="test_total_TF">判断题 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp共 <span id="TF_num"></span>
-                        小题，共计 <span id="TF_score"></span> 分
+                    <li id="test_total_TF">判断题 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        获得{{ T_score }}分，总分{{ T_total_score }}分
                     </li>
-                    <li id="test_total_choice">选择题 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp共 <span
-                            id="choice_num"></span> 小题，共计 <span id="choice_score"></span> 分
+                    <li id="test_total_choice">选择题 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        获得{{ C_score }}分，总分{{ C_total_score }}分
                     </li>
                 </ol>
 
@@ -158,7 +106,45 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <div class="row">
                             <div class="col-sm-9" style="border-right-style: inset">
                                 <div class="TF_problems_list">
+                                <p>
+                                    {% for record in true_or_false_question_answer_record    %}
+                                    <p>
+                                        {{ forloop.counter }}.&nbsp
+                                        {{ record.question.content }}
+
+                                        ({{ record.question.score }}分)
+                                    </p>
+                                        <div>
+                                            <label>
+                                                {% if record.answer == True %}
+                                                    <input type="radio" checked="checked" disabled>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                {% endif %}
+                                                {% if record.question.solution == True %}
+                                                    <span style="color: red">T</span>
+                                                {% else %}
+                                                    T
+                                                {% endif %}
+                                            </label>
+                                            <label>
+                                                {% if record.answer == False %}
+                                                    <input type="radio" checked="checked" disabled>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                {% endif %}
+                                                {% if record.question.solution == False %}
+                                                    <span style="color: red">F</span>
+                                                {% else %}
+                                                    F
+                                                {% endif %}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </p>
+
                                 </div>
+
                             </div>
 
                             <div class="col-sm-3">
@@ -173,6 +159,62 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <div class="row">
                             <div class="col-sm-9" style="border-right-style: inset">
                                 <div class="choice_problems_list">
+                                {% for record in choice_question_answer_record %}
+                                    <p>
+                                        {{ forloop.counter }}.&nbsp
+                                        {{ record.question.content }}
+                                        ({{ record.question.score }}分)
+                                    </p>
+                                    <div>
+                                        <label>
+                                            {% if record.answer == 'A' %}
+                                                <input type="radio" checked="checked" disabled>
+                                            {% else %}
+                                                <input type="radio" disabled>
+                                            {% endif %}
+                                            {% if record.question.solution == 'A' %}
+                                                <span style="color: red">A.{{ record.question.choice_a }}</span>
+                                            {% else %}
+                                                A.{{ record.question.choice_a }}
+                                            {% endif %}
+                                        </label>
+                                        <label>
+                                            {% if record.answer == 'B' %}
+                                                <input type="radio" checked="checked" disabled>
+                                            {% else %}
+                                                <input type="radio" disabled>
+                                            {% endif %}
+                                            {% if record.question.solution == 'B' %}
+                                                <span style="color: red">B.{{ record.question.choice_b }}</span>
+                                            {% else %}
+                                                B.{{ record.question.choice_b }}
+                                            {% endif %}
+                                        </label>
+                                        <label>
+                                            {% if record.answer == 'C' %}
+                                                <input type="radio" checked="checked" disabled>
+                                            {% else %}
+                                                <input type="radio" disabled>
+                                            {% endif %}
+                                            {% if record.question.solution == 'C' %}
+                                                <span style="color: red">C.{{ record.question.choice_c }}</span>
+                                            {% else %}
+                                                C.{{ record.question.choice_c }}
+                                            {% endif %}
+                                        </label>
+                                        <label>
+                                            {% if record.answer == 'D' %}
+                                                <input type="radio" checked="checked" disabled>
+                                            {% else %}
+                                                <input type="radio" disabled>
+                                            {% endif %}
+                                            {% if record.question.solution == 'D' %}
+                                                <span style="color: red">D.{{ record.question.choice_d }}</span>
+                                            {% else %}
+                                                D.{{ record.question.choice_d }}
+                                            {% endif %}
+                                        </label>
+                                {% endfor %}
                                 </div>
                             </div>
                             <div class="col-sm-3">
@@ -206,54 +248,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <span>主页</span>
                 </a>
             </li>
-            <!-- <li id="menu-academico">
-                <a href="#">
-                    <i class="fa fa-table"></i>
-                    <span> New Arrivals</span>
-                    <span class="fa fa-angle-right" style="float: right"></span>
-                </a>
-                <ul id="menu-academico-sub">
-                    <li id="menu-academico-avaliacoes">
-                        <a href="shoes.html">Shoes</a>
-                    </li>
-                    <li id="menu-academico-avaliacoes">
-                        <a href="products.html">Watches</a>
-                    </li>
-                    <li id="menu-academico-boletim">
-                        <a href="sunglasses.html">Sunglasses</a>
-                    </li>
-                </ul>
-            </li>
-            <li id="menu-academico">
-                <a href="sunglasses.html">
-                    <i class="fa fa-file-text-o"></i>
-                    <span>Sunglasses</span>
-                </a>
-            </li>
-            <li>
-                <a href="sweater.html">
-                    <i class="lnr lnr-pencil"></i>
-                    <span>Sweater</span>
-                </a>
-            </li>
-            <li id="menu-academico">
-                <a href="catalog.html">
-                    <i class="fa fa-file-text-o"></i>
-                    <span>Catalog</span>
-                </a>
-            </li>
-            <li id="menu-academico">
-                <a href="shoes.html">
-                    <i class="lnr lnr-book"></i>
-                    <span>Shoes</span>
-                </a>
-            </li>
-            <li>
-                <a href="bags.html">
-                    <i class="lnr lnr-envelope"></i>
-                    <span>Bags</span>
-                </a>
-            </li> -->
             <li>
                 <a href="products.html">
                     <i class="lnr lnr-chart-bars"></i>
@@ -266,15 +260,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <span>论坛</span>
                     <span class="fa fa-angle-right" style="float: right"></span>
                 </a>
-                <ul id="menu-academico-sub">
-                    <li id="menu-academico-avaliacoes">
-                        <a href="tabs.html">Tabs</a>
-                    </li>
-                    <li id="menu-academico-boletim">
-                        <a href="calender.html">Calender</a>
-                    </li>
-
-                </ul>
             </li>
             <li>
                 <a href="#">
@@ -308,3 +293,4 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </body>
 
 </html>
+
