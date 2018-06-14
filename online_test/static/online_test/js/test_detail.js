@@ -56,7 +56,7 @@ $(document).ready(function () {
         $("#TF_list").show();
         $("#test_total_TF").show();
         p = '<p>\
-                <span class="class_label">1-' + Number(i + 1) + '. </span>'
+                <span class="class_label">' + Number(i + 1) + '. </span>'
             + data.TF_problems[i].description
             + '<span class="problems-score">(' + data.TF_problems[i].score + '分)</span>\
                 </p>\
@@ -81,7 +81,7 @@ $(document).ready(function () {
         $("#choice_list").show();
         $("#test_total_choice").show();
         p = '<p> \
-                <span class="class_label">1-' + Number(i + 1) + '. </span>'
+                <span class="class_label">' + Number(i + 1) + '. </span>'
             + data.choice_problems[i].description
             + '<span class="problems-score">(' + data.choice_problems[i].score + '分)</span>\
                 </p>\

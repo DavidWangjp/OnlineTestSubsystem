@@ -19,12 +19,6 @@
             }
         );
     {% endfor %}
-    {#    {% for id, choice in choice_question_answer_record.items %}#}
-    {#choice_questions.find(record => record['id'] === "{{ id }}")['choose'] = "{{ choice }}";#}
-    {#        for (let i = 0; i < choice_questions.length; i++)#}
-    {#            if (choice_questions[i].id === "{{ id }}")#}
-    {#                choice_questions[i].choose = "{{ choice }}";#}
-    {#    {% endfor %}#}
 
     let true_or_false_questions = [];
     {% for true_or_false_question in test.true_or_false_questions.all %}
@@ -37,12 +31,6 @@
             }
         );
     {% endfor %}
-    {#    {% for id, choice in true_or_false_question_answer_record.items %}#}
-    {#true_or_false_questions.find(record => record['id'] === "{{ id }}")['choose'] = "{{ choice }}";#}
-    {#        for (let i = 0; i < true_or_false_questions.length; i++)#}
-    {#            if (true_or_false_questions[i].id === "{{ id }}")#}
-    {#                true_or_false_questions[i].choose = "{{ choice }}";#}
-    {#    {% endfor %}#}
 
 
     const data = {
@@ -299,7 +287,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <a href="{% url 'online_test:index' %}"> 选择题库</a>
                     </li>
                     <li>
-                        <a href="validation.html">信息统计</a>
+                        <a href="{% url 'online_test:student_statistics' %}">成绩统计</a>
                     </li>
                 </ul>
             </li>

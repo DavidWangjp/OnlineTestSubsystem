@@ -15,5 +15,7 @@ urlpatterns = [
     path('test_statistics/<int:pk>/', views.TestStatistics.as_view(), name='test_statistics'),
     path('test_statistics/<int:pk>/<int:student_pk>/', views.TestStatisticsStudentRecord.as_view(),
          name='test_statistics_student_record'),
+    path('test_statistics/teacher/<int:pk>/<int:student_pk>/', views.TestStatisticsTeacherRecord.as_view(),
+         name='test_statistics_teacher_record'),
     # path('chapter_statistics/<int:pk>', views.TeacherStatisticsChapters.as_view(), name='teacher_statistics_chapters')
 ]

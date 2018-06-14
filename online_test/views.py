@@ -160,28 +160,66 @@ class TestStatisticsStudentRecord(generic.DetailView):
 
         student = Student.objects.get(id=self.kwargs['student_pk'])
 
-        score = 0
-        total_score = 0
+        T_score = 0
+        T_total_score = 0
+        C_score = 0
+        C_total_score = 0
         choice_question_records = []
         for record in ChoiceQuestionAnswerRecord.objects.filter(test=self.object, student=student):
             choice_question_records.append(record)
-            total_score += record.question.score
+            C_total_score += record.question.score
             if record.answer == record.question.solution:
-                score += record.question.score
+                C_score += record.question.score
 
         true_or_false_question_records = []
         for record in TrueOrFalseQuestionAnswerRecord.objects.filter(test=self.object, student=student):
             true_or_false_question_records.append(record)
-            total_score += record.question.score
+            T_total_score += record.question.score
             if record.answer == record.question.solution:
-                score += record.question.score
-
+                T_score += record.question.score
+        context['test'] = self.object
         context['choice_question_answer_record'] = choice_question_records
         context['true_or_false_question_answer_record'] = true_or_false_question_records
-        context['score'] = score
-        context['total_score'] = total_score
+        context['T_score'] = T_score
+        context['T_total_score'] = T_total_score
+        context['C_score'] = C_score
+        context['C_total_score'] = C_total_score
         return context
 
+class TestStatisticsTeacherRecord(generic.DetailView):
+    model = Test
+    template_name = 'online_test/test_statistics_teacher_record.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        student = Student.objects.get(id=self.kwargs['student_pk'])
+
+        T_score = 0
+        T_total_score = 0
+        C_score = 0
+        C_total_score = 0
+        choice_question_records = []
+        for record in ChoiceQuestionAnswerRecord.objects.filter(test=self.object, student=student):
+            choice_question_records.append(record)
+            C_total_score += record.question.score
+            if record.answer == record.question.solution:
+                C_score += record.question.score
+
+        true_or_false_question_records = []
+        for record in TrueOrFalseQuestionAnswerRecord.objects.filter(test=self.object, student=student):
+            true_or_false_question_records.append(record)
+            T_total_score += record.question.score
+            if record.answer == record.question.solution:
+                T_score += record.question.score
+        context['test'] = self.object
+        context['choice_question_answer_record'] = choice_question_records
+        context['true_or_false_question_answer_record'] = true_or_false_question_records
+        context['T_score'] = T_score
+        context['T_total_score'] = T_total_score
+        context['C_score'] = C_score
+        context['C_total_score'] = C_total_score
+        return context
 
 class StudentStatistics(generic.ListView):
     model = Test
@@ -192,6 +230,7 @@ class StudentStatistics(generic.ListView):
         object_list = Test.objects.filter(attend_students=login_student)
         context['object_list'] = object_list
         context['student_id'] = login_student.id
+
         return context
 
 
