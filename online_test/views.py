@@ -29,6 +29,11 @@ class TestDetail(generic.DetailView):
         return context
 
 
+class ProblemBank(generic.ListView):
+    model = Test
+    template_name = 'online_test/problem_bank.html'
+
+
 def submit_answer(request: HttpRequest):
     if request.method == 'POST':
         test_id = int(request.POST['test_id'])

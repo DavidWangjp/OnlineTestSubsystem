@@ -1,0 +1,324 @@
+{% load static %}
+{% load extratags %}
+<!DOCTYPE HTML>
+<html>
+<script>
+
+</script>
+<script>
+
+</script>
+<head>
+    <title>{{ test.name }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content="Gretong Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design"/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'online_test/css/bootstrap.min.css' %}" rel='stylesheet' type='text/css'/>
+    <!-- Custom CSS -->
+    <link href="{% static 'online_test/css/style.css' %}" rel='stylesheet' type='text/css'/>
+    <!-- Graph CSS -->
+    <link href="{% static 'online_test/css/font-awesome.css' %}" rel="stylesheet">
+    <!-- jQuery -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet'
+          type='text/css'/>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <!-- lined-icons -->
+    <link rel="stylesheet" href="{% static 'online_test/css/icon-font.min.css' %}" type='text/css'/>
+    <script src="{% static 'online_test/js/simpleCart.min.js' %}"></script>
+    <script src="{% static 'online_test/js/amcharts.js' %}"></script>
+    <script src="{% static 'online_test/js/serial.js' %}"></script>
+    <script src="{% static 'online_test/js/light.js' %}"></script>
+    <!-- //lined-icons -->
+    <script src="{% static 'online_test/js/jquery-1.10.2.min.js' %}"></script>
+
+    <script>
+        $.ajaxSetup({
+            headers: {"X-CSRFToken": '{{csrf_token}}'}
+        });
+    </script>
+    <script src="{% static 'online_test/js/problem_bank.js' %}"></script>
+
+    <script>
+        $(function () {
+            $("#tabs").tabs();
+        });
+    </script>
+</head>
+
+<body>
+<div class="left-content">
+    <div class="inner-content">
+        <div class="header-section">
+            <div class="top_bg">
+                <div class="header_top">
+                    <div class="top_right">
+                        <ul>
+                            <li>
+                                <a href="contact.html">help</a>
+                            </li>
+                            |
+                            <li>
+                                <a href="contact.html">Contact</a>
+                            </li>
+                            |
+                            <li>
+                                <a href="checkout.html">Delivery information</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="top_left">
+                        <h2>
+                            <span></span> Call us : 032 2352 782</h2>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+
+        <div class="content">
+            <div class="women_main">
+                <font size="6" color="black">题库管理</font>
+                <div class="container">
+                    <button>添加题目</button>
+                    <br>
+                    <br>
+                    <div class="row">
+                        <div class="pull-left col-md-4">
+                            <span class="pull-left"></span>
+                            <textarea></textarea>
+                        </div>
+                        <div class="pull-right col-md-8">
+                            <div>
+                                <span>题目信息</span>
+                                <br>
+                                <div class="container proinfo-box">
+                                    <table >
+                                        <thead></thead>
+                                        <tr class="row">
+                                            <td class="row">
+                                                <div class="col-md-4">
+                                                    <span>题目类型</span>
+                                                    <span>我</span>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span>知识点</span>
+                                                    <span>无</span>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span>题目类型</span>
+                                                    <span>简答题</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="row">
+                                            <td>
+                                                 <div class="col-md-4">
+                                                    <span>
+                                                      出题人
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div><span>修改日期</span></div>
+                                            </td>
+                                            <td>
+                                                <div><span>录入日期</span></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div>
+                                <span>题目内容</span>
+                            </div>
+                            <div>
+                                <span>答案</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="tabs_content" class="tab-content">
+                    <div class="tab-pane fade in active" id="TF_problem">
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-9" style="border-right-style: inset">
+                                <div class="TF_problems_list">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+
+                                <div class="statics">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="choice_problem">
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-9" style="border-right-style: inset">
+                                <div class="choice_problems_list">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="statics">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="sidebar-menu">
+    <header class="logo1">
+        <a href="#" class="sidebar-icon">
+            <span class="fa fa-bars"></span>
+        </a>
+    </header>
+    <div style="border-top:1px ridge rgba(255, 255, 255, 0.15)"></div>
+    <div class="menu">
+        <ul id="menu">
+            <li>
+                <a href="index.html">
+                    <i class="fa fa-tachometer"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li id="menu-academico">
+                <a href="#">
+                    <i class="fa fa-table"></i>
+                    <span> New Arrivals</span>
+                    <span class="fa fa-angle-right" style="float: right"></span>
+                </a>
+                <ul id="menu-academico-sub">
+                    <li id="menu-academico-avaliacoes">
+                        <a href="shoes.html">Shoes</a>
+                    </li>
+                    <li id="menu-academico-avaliacoes">
+                        <a href="products.html">Watches</a>
+                    </li>
+                    <li id="menu-academico-boletim">
+                        <a href="sunglasses.html">Sunglasses</a>
+                    </li>
+                </ul>
+            </li>
+            <li id="menu-academico">
+                <a href="sunglasses.html">
+                    <i class="fa fa-file-text-o"></i>
+                    <span>Sunglasses</span>
+                </a>
+            </li>
+            <li>
+                <a href="sweater.html">
+                    <i class="lnr lnr-pencil"></i>
+                    <span>Sweater</span>
+                </a>
+            </li>
+            <li id="menu-academico">
+                <a href="catalog.html">
+                    <i class="fa fa-file-text-o"></i>
+                    <span>Catalog</span>
+                </a>
+            </li>
+            <li id="menu-academico">
+                <a href="shoes.html">
+                    <i class="lnr lnr-book"></i>
+                    <span>Shoes</span>
+                </a>
+            </li>
+            <li>
+                <a href="bags.html">
+                    <i class="lnr lnr-envelope"></i>
+                    <span>Bags</span>
+                </a>
+            </li>
+            <li>
+                <a href="products.html">
+                    <i class="lnr lnr-chart-bars"></i>
+                    <span>Watches</span>
+                </a>
+            </li>
+            <li id="menu-academico">
+                <a href="#">
+                    <i class="lnr lnr-layers"></i>
+                    <span>Tabs & Calender</span>
+                    <span class="fa fa-angle-right" style="float: right"></span>
+                </a>
+                <ul id="menu-academico-sub">
+                    <li id="menu-academico-avaliacoes">
+                        <a href="tabs.html">Tabs</a>
+                    </li>
+                    <li id="menu-academico-boletim">
+                        <a href="calender.html">Calender</a>
+                    </li>
+
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="lnr lnr-chart-bars"></i>
+                    <span>答题系统</span>
+                    <span class="fa fa-angle-right" style="float: right"></span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="{% url 'online_test:index' %}"> 在线答题</a>
+                    </li>
+                    <li>
+                        <a href="validation.html">Validation</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="lnr lnr-chart-bars"></i>
+                    <span>题库管理</span>
+                    <span class="fa fa-angle-right" style="float: right"></span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="{% url 'online_test:index' %}"> 题库管理</a>
+                    </li>
+                    <li>
+                        <a href="validation.html">Validation</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!--js -->
+<script src="{% static 'online_test/js/jquery.nicescroll.js' %}"></script>
+<script src="{% static 'online_test/js/scripts.js' %}"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="{% static 'online_test/js/bootstrap.min.js' %}"></script>
+<!-- /Bootstrap Core JavaScript -->
+<!-- real-time -->
+
+
+<script src="{% static 'online_test/js/menu_jquery.js' %}"></script>
+</body>
+
+</html>
