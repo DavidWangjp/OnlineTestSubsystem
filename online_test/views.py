@@ -1,10 +1,11 @@
 from django.http import HttpRequest, HttpResponse
 from django.utils import timezone
 from django.views import generic
+from django.shortcuts import render, get_object_or_404
 import json
 from .models import Test, ChoiceQuestionAnswerRecord, ChoiceQuestion, TrueOrFalseQuestionAnswerRecord, \
-    TrueOrFalseQuestion, Student, Teacher, Chapter, KnowledgePoint
-
+    TrueOrFalseQuestion, Student, Teacher, Chapter, KnowledgePoint, ProblemSearch
+from .forms import ProblemSearchForm
 login_student = Student.objects.all()[0]
 login_teacher = Teacher.objects.all()[0]
 
@@ -292,5 +293,4 @@ def submit_answer(request: HttpRequest):
                             answer_time=timezone.now()
                         )
                         record.save()
-
     return HttpResponse(json.dumps({'success': True, 'result': 'ok'}))
