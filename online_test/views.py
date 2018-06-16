@@ -42,6 +42,18 @@ class ProblemBank(generic.ListView):
     model = Test
     template_name = 'online_test/problem_bank.html'
 
+class SingleProblem(generic.ListView):
+    model = Test
+    template_name = 'online_test/problem_single.html'
+
+class ManualTestGeneration(generic.ListView):
+    model = Test
+    template_name = 'online_test/manual_test_generation.html'
+
+class AutoTestGeneration(generic.ListView):
+    model = Test
+    template_name = 'online_test/auto_test_generation.html'
+
 class TeacherStatisticsTests(generic.ListView):
     model = Test
     template_name = 'online_test/teacher_statistics_tests.html'
