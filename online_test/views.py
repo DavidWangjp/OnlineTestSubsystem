@@ -236,7 +236,6 @@ class StudentStatistics(generic.ListView):
         context['student_id'] = login_student.id
 
         return context
->>>>>>> d06be1c1df0972c16198d64fd7c3e7d663e3766e
 
 
 def submit_answer(request: HttpRequest):

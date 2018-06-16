@@ -7,7 +7,7 @@ urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('test/<int:pk>/', views.TestDetail.as_view(), name='test_detail'),
     path('test/submit_answer/', views.submit_answer, name='judge'),
-    path('test/problem_bank/', views.ProblemBank.as_view(), name='problem_bank'),
+    path('problem_bank/', views.ProblemBank.as_view(), name='problem_bank'),
     path('statistics/teacher/tests', views.TeacherStatisticsTests.as_view(), name='teacher_statistics_tests'),
     path('statistics/teacher/chapters', views.TeacherStatisticsChapters.as_view(), name='teacher_statistics_chapters'),
     path('statistics/teacher/knowledge_points', views.TeacherStatisticsKnowledgePoints.as_view(),
