@@ -21,5 +21,10 @@ urlpatterns = [
          name='test_statistics_student_record'),
     url('test_statistics/teacher/<int:pk>/<int:student_pk>/', views.TestStatisticsTeacherRecord.as_view(),
          name='test_statistics_teacher_record'),
+
+    url('problem_bank/search/', views.problem_search, name="problem_search"),
+    url('problem_bank/add/', views.problem_add, name="problem_add"),
+    url('problem_bank/mod/', views.problem_mod, name="problem_mod"),
+    url('problem_bank/del/', views.problem_del, name="problem_del"),
     # url('chapter_statistics/<int:pk>', views.TeacherStatisticsChapters.as_view(), name='teacher_statistics_chapters')
 ]
