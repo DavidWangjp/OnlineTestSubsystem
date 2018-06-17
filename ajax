@@ -1,20 +1,12 @@
 Ajax
 
-查询：url：problem_bank/search/ 名称：problem_search
-			type：题目类型，1代表选择题，0代表判断题
-			返回的数据content：result      （content为标识符，result为内容）
-
-
-
-添加：url：problem_bank/add/ 名称：problem_add
-			POST方式为提交修改内容，非POST方式为跳转到problem_single界面
 			type：题目类型，1代表选择题，0代表判断题
 			content：题目内容
 			
-			choice_a:  选项内容
-			choice_b:  选项内容
-			choice_c:  选项内容
-			choice_d:  选项内容
+			choice_a:  选项内容（选择题）
+			choice_b:  选项内容（选择题）
+			choice_c:  选项内容（选择题）
+			choice_d:  选项内容（选择题）
 			
 			solution： 正确答案
 			subject： 科目
@@ -23,69 +15,29 @@ Ajax
 			add_time： 添加时间
 			latest_modify_time： 最近修改时间
 
-添加完成后：
-				choice：选择题
-				judge：判断题
+查询：url：problem_bank/search/ 名称：problem_search
+			前端到后端；type
+			后端到前端：infos（json，包含开始列出的全部项目）
+
+
+
+添加：url：problem_bank/add/ 名称：problem_add
+			POST方式为提交修改内容，非POST方式为跳转到problem_single界面
+			前端到后端；type
+			
+			后端到前端：choice（json，选择题） judge（json，判断题）（点击提交后跳转回去，需要显示的内容）
 
 
 
 
 修改题目：url：problem_bank/mod/ 名称：problem_mod
 				POST方式为提交修改内容，非POST方式为跳转到problem_single界面
-				进入修改界面：
-										content：题目内容（一个类，使用时首先需要知道题目类型，根据类型访问类的元素）
-										type：题目类型
-修改完成后：
-				choice：选择题
-				judge：判断题									
+							前端到后端；type
+			
+			后端到前端：choice（json，选择题） judge（json，判断题）（点击提交后跳转回去，需要显示的内容）
+						
 										
 		
 删除：url：problem_bank/del/ 名称：problem_del
-			choice：选择题
-			judge：判断题								
-										
-选择题类：(类中元素含义与“添加：”后面的相同)
-class ChoiceQuestion(models.Model):
-    content = models.TextField()
-
-    choice_a = models.TextField()
-    choice_b = models.TextField()
-    choice_c = models.TextField()
-    choice_d = models.TextField()
-
-    solution = models.CharField(max_length=1, choices=CHOICE)
-
-    score = models.PositiveSmallIntegerField(default=1)
-
-    creator = models.ForeignKey(Teacher, on_delete=models.SET_NULL, blank=True, null=True)
-
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, blank=True, null=True)
-    chapter = models.ForeignKey(Chapter, on_delete=models.SET_NULL, blank=True, null=True)
-    knowledge_point = models.ForeignKey(KnowledgePoint, on_delete=models.SET_NULL, blank=True, null=True)
-
-    add_time = models.DateTimeField('time added')
-    latest_modify_time = models.DateTimeField('time latest modified')
-
-    def __str__(self):
-        return self.content
-
-判断题类：
-class TrueOrFalseQuestion(models.Model):
-    content = models.TextField()
-
-    solution = models.BooleanField()
-
-    score = models.PositiveSmallIntegerField(default=1)
-
-    creator = models.ForeignKey(Teacher, on_delete=models.SET_NULL, blank=True, null=True)
-
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, blank=True, null=True)
-    chapter = models.ForeignKey(Chapter, on_delete=models.SET_NULL, blank=True, null=True)
-    knowledge_point = models.ForeignKey(KnowledgePoint, on_delete=models.SET_NULL, blank=True, null=True)
-
-    add_time = models.DateTimeField('time added')
-    latest_modify_time = models.DateTimeField('time latest modified')
-
-    def __str__(self):
-        return self.content
+			后端到前端：choice：选择题 judge：判断题								
 										
