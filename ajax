@@ -1,0 +1,43 @@
+Ajax
+
+			type：题目类型，1代表选择题，0代表判断题
+			content：题目内容
+			
+			choice_a:  选项内容（选择题）
+			choice_b:  选项内容（选择题）
+			choice_c:  选项内容（选择题）
+			choice_d:  选项内容（选择题）
+			
+			solution： 正确答案
+			subject： 科目
+			chapter： 章节
+			knowledge_point： 知识点
+			add_time： 添加时间
+			latest_modify_time： 最近修改时间
+
+查询：url：problem_bank/search/ 名称：problem_search
+			前端到后端；type
+			后端到前端：infos（json，包含开始列出的全部项目）
+
+
+
+添加：url：problem_bank/add/ 名称：problem_add
+			POST方式为提交修改内容，非POST方式为跳转到problem_single界面
+			前端到后端；type
+			
+			后端到前端：choice（json，选择题） judge（json，判断题）（点击提交后跳转回去，需要显示的内容）
+
+
+
+
+修改题目：url：problem_bank/mod/ 名称：problem_mod
+				POST方式为提交修改内容，非POST方式为跳转到problem_single界面
+							前端到后端；type
+			
+			后端到前端：choice（json，选择题） judge（json，判断题）（点击提交后跳转回去，需要显示的内容）
+						
+										
+		
+删除：url：problem_bank/del/ 名称：problem_del
+			后端到前端：choice：选择题 judge：判断题								
+										

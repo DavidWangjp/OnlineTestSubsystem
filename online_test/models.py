@@ -23,6 +23,13 @@ class Student(models.Model):
         return self.name
 
 
+class Subject(models.Model):
+    name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
+
+
 class Chapter(models.Model):
     chapter = models.CharField(max_length=10)
 
@@ -36,6 +43,16 @@ class KnowledgePoint(models.Model):
     def __str__(self):
         return self.knowledge_point
 
+#class ProblemSearch(models.Model):
+#	problem_type = models.IntegerField()
+#   creator = models.ForeignKey(Teacher, on_delete=models.SET_NULL, blank=True, null=True)
+#
+#   subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, blank=True, null=True)
+#   chapter = models.ForeignKey(Chapter, on_delete=models.SET_NULL, blank=True, null=True)
+#   knowledge_point = models.ForeignKey(KnowledgePoint, on_delete=models.SET_NULL, blank=True, null=True)
+#	
+#   def __str__(self):
+#        return self.problem_type			
 
 class ChoiceQuestion(models.Model):
     content = models.TextField()
@@ -51,6 +68,7 @@ class ChoiceQuestion(models.Model):
 
     creator = models.ForeignKey(Teacher, on_delete=models.SET_NULL, blank=True, null=True)
 
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, blank=True, null=True)
     chapter = models.ForeignKey(Chapter, on_delete=models.SET_NULL, blank=True, null=True)
     knowledge_point = models.ForeignKey(KnowledgePoint, on_delete=models.SET_NULL, blank=True, null=True)
 
@@ -70,6 +88,7 @@ class TrueOrFalseQuestion(models.Model):
 
     creator = models.ForeignKey(Teacher, on_delete=models.SET_NULL, blank=True, null=True)
 
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, blank=True, null=True)
     chapter = models.ForeignKey(Chapter, on_delete=models.SET_NULL, blank=True, null=True)
     knowledge_point = models.ForeignKey(KnowledgePoint, on_delete=models.SET_NULL, blank=True, null=True)
 
@@ -87,6 +106,8 @@ class Test(models.Model):
     true_or_false_questions = models.ManyToManyField(TrueOrFalseQuestion, null=True, blank=True)
 
     creator = models.ForeignKey(Teacher, on_delete=models.SET_NULL, blank=True, null=True)
+
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, blank=True, null=True)
 
     attend_students = models.ManyToManyField(Student, null=True, blank=True)
 
