@@ -4,11 +4,15 @@ from . import views
 
 app_name = 'online_test'
 urlpatterns = [
-    url('', views.IndexView.as_view(), name='index'),
+<<<<<<< HEAD
+    #url('', views.IndexView.as_view(), name='index'),
+=======
+    # url('', views.IndexView.as_view(), name='index'),
+>>>>>>> refs/remotes/origin/dev
     url('test/<int:pk>/', views.TestDetail.as_view(), name='test_detail'),
     url('test/submit_answer/', views.submit_answer, name='judge'),
-    url('problem_bank/', views.ProblemBank.as_view(), name='problem_bank'),
     url('problem_bank/single_problem', views.SingleProblem.as_view(), name='problem_single'),
+    url('problem_bank/', views.ProblemBank.as_view(), name='problem_bank'),
     url('teacher/test/manual-generation', views.ManualTestGeneration.as_view(), name='manual_test_generation'),
     url('teacher/test/auto-generation', views.AutoTestGeneration.as_view(), name='auto_test_generation'),
     url('statistics/teacher/tests', views.TeacherStatisticsTests.as_view(), name='teacher_statistics_tests'),

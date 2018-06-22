@@ -44,6 +44,7 @@ class ProblemBank(generic.ListView):
     model = Test
     template_name = 'online_test/problem_bank.html'
 
+
 class SingleProblem(generic.ListView):
     model = Test
     template_name = 'online_test/problem_single.html'
