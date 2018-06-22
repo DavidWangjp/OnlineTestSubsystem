@@ -4,7 +4,7 @@ from . import views
 
 app_name = 'online_test'
 urlpatterns = [
-    #url('', views.IndexView.as_view(), name='index'),
+    url('', views.IndexView.as_view(), name='index'),
     url('test/<int:pk>/', views.TestDetail.as_view(), name='test_detail'),
     url('test/submit_answer/', views.submit_answer, name='judge'),
     url('problem_bank/', views.ProblemBank.as_view(), name='problem_bank'),
