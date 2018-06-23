@@ -296,8 +296,112 @@ def submit_answer(request: HttpRequest):
                         record.save()
     return HttpResponse(json.dumps({'success': True, 'result': 'ok'}))
 
-def problem_search(request: HttpRequest):
+def choice_re(data):
+    choice = ChoiceQuestion(
+        content=data["content"],
+        choice_a=data["choice_a"],
+        choice_b=data["choice_b"],
+        choice_c=data["choice_c"],
+        choice_d=data["choice_d"],
+        solution=data["solution"],
+        score=data["score"],
+        creator=login_teacher,
+        subject=data["subject"],
+        chapter=data["chapter"],
+        knowledge_point=data["knowledge_point"],
+        add_time=timezone.now(),
+        latest_modify_time=timezone.now()
+    )
+    return choice
+
+def judge_re(data):
+    judge = TrueOrFalseQuestion(
+        content=data["content"],
+        solution=data["solution"],
+        score=data["score"],
+        creator=login_teacher,
+        subject=data["subject"],
+        chapter=data["chapter"],
+        knowledge_point=data["knowledge_point"],
+        add_time=timezone.now(),
+        latest_modify_time=timezone.now()
+    )
+    return judge
+
+def  test_add(request: HttpRequest):
     if request.method == "POST":
+        select = []
+        judge = []
+        #查出改科目对应的考试时间
+        test = Test(
+            name=request.POST.get("name"),
+            subject=request.POST.get("subject"),
+            creator=login_teacher,
+            attend_students=[]
+        )
+        info = request.POST.get("questions")
+        info_data = json.loads(info)
+        for key in info_data:
+            if info_data[key]["type"] == 1:
+                select += choice_re(info_data[key])
+            else:
+                judge += judge_re(info_data[key])
+        test.choice_questions = select
+        test.true_or_false_questions = judge
+        test.save()
+    return HttpResponse(json.dumps({'success': True, 'result': 'ok'}), content_type="application/json")
+
+def  test_mod(request: HttpRequest, pk):
+    get = get_object_or_404(Test, pk=pk)
+    if request.method == "POST":
+        select = []
+        judge = []
+        #查出改科目对应的考试时间
+        get.name=request.POST.get("name")
+        get.subject=request.POST.get("subject")
+        get.creator=login_teacher
+        get.attend_students=[]
+        info = request.POST.get("questions")
+        info_data = json.loads(info)
+        for key in info_data:
+            if info_data[key]["type"] == 1:
+                select += choice_re(info_data[key])
+            else:
+                judge += judge_re(info_data[key])
+        get.choice_questions = select
+        get.true_or_false_questions = judge
+        get.save()
+    return HttpResponse(json.dumps({'success': True, 'result': 'ok'}), content_type="application/json")
+
+def test_del(request: HttpRequest, pk):
+    get = get_object_or_404(Test, pk=pk)
+    get.delete()
+    return HttpResponse(json.dumps({'success': True, 'result': 'ok'}), content_type="application/json")
+
+def test_json(test):
+    infos_choice = {}
+    count = -1
+    for reever in test:
+        count = count + 1
+        info = {"name": reever.name, "choice_questions": choice_json(reever.choice_questions),
+                "true_or_false_questions": judge_json(reever.true_or_false_questions),
+                "creator": reever.creator,
+                "subject": reever.subject, "start_time": reever.start_time,
+                "end_time": reever.end_time}
+        infos_choice[count + ""] = info
+    return infos_choice
+
+def test_search(request: HttpRequest):
+    if request.method == "POST":
+        infos = {}
+        test = Test.objects.filter(name=request.POST.get("name"),
+                                   creator=request.POST.get("creator"), subject=request.POST.get("subject"))
+        infos = test_json(test)
+        return HttpResponse(json.dumps({'infos': infos}), content_type="application/json")
+
+def problem_detail(request: HttpRequest):
+    if request.method == "POST":
+        infos = {}
         if request.POST.get("type") == 1:
             result = ChoiceQuestion.objects.filter(creator=request.POST.get("creator"), subject=request.POST.get("subject"),
                                                    chapter=request.POST.get("chapter"), knowledge_point=request.POST.get("knowledge_point"))
@@ -306,7 +410,22 @@ def problem_search(request: HttpRequest):
             result = TrueOrFalseQuestion.objects.filter(creator=request.POST.get("creator"), subject=request.POST.get("subject"),
                                                    chapter=request.POST.get("chapter"), knowledge_point=request.POST.get("knowledge_point"))
             infos = judge_json(result)
-        return render(request, 'online_test/problem_bank.html', {'infos': infos})
+        return render(request, 'online_test/problem_single.html', {'infos': infos})
+
+def problem_search(request: HttpRequest):
+    print('get')
+    if request.method == "POST":
+        print('post')
+        infos = {}
+        if request.POST.get("type") == 1:
+            result = ChoiceQuestion.objects.filter(creator=request.POST.get("creator"), subject=request.POST.get("subject"),
+                                                   chapter=request.POST.get("chapter"), knowledge_point=request.POST.get("knowledge_point"))
+            infos = choice_json(result)
+        elif request.POST.get("type") == 0:
+            result = TrueOrFalseQuestion.objects.filter(creator=request.POST.get("creator"), subject=request.POST.get("subject"),
+                                                   chapter=request.POST.get("chapter"), knowledge_point=request.POST.get("knowledge_point"))
+            infos = judge_json(result)
+        return HttpResponse(json.dumps({'infos': infos}), content_type="application/json")
 
 def problem_add(request: HttpRequest):
     if request.method == "POST":
@@ -340,11 +459,13 @@ def problem_add(request: HttpRequest):
                 latest_modify_time=timezone.now()
             )
             result.save()
-        choice = ChoiceQuestion.objects.filter(creator=login_teacher)
-        infos_choice = choice_json(choice)
-        judge = TrueOrFalseQuestion.objects.filter(creator=login_teacher)
-        infos_judge = judge_json(judge)
-        return render(request, 'online_test/problem_bank.html', {'choice': infos_choice, 'judge': infos_judge})
+        #choice = ChoiceQuestion.objects.filter(creator=login_teacher)
+        #infos_choice = choice_json(choice)
+        #judge = TrueOrFalseQuestion.objects.filter(creator=login_teacher)
+        #infos_judge = judge_json(judge)
+        return HttpResponse(json.dumps({'success': True, 'result': 'ok'}), content_type="application/json")
+        #HttpResponse(json.dumps({'choice': infos_choice, 'judge': infos_judge}))
+        # #render(request, 'online_test/problem_bank.html', {'choice': infos_choice, 'judge': infos_judge})
     return render(request, 'online_test/problem_single.html')
 
 def choice_json(choice):
@@ -412,11 +533,13 @@ def problem_mod(request: HttpRequest, pk):
                 latest_modify_time=timezone.now()
             )
             result.save()
-        choice = ChoiceQuestion.objects.filter(creator=login_teacher)
-        infos_choice = choice_json(choice)
-        judge = TrueOrFalseQuestion.objects.filter(creator=login_teacher)
-        infos_judge = judge_json(judge)
-        return render(request, 'online_test/problem_bank.html', {'choice': infos_choice, 'judge': infos_judge})
+        #choice = ChoiceQuestion.objects.filter(creator=login_teacher)
+        #infos_choice = choice_json(choice)
+        #judge = TrueOrFalseQuestion.objects.filter(creator=login_teacher)
+        #infos_judge = judge_json(judge)
+        return HttpResponse(json.dumps({'success': True, 'result': 'ok'}), content_type="application/json")
+        #HttpResponse(json.dumps({'choice': infos_choice, 'judge': infos_judge}))
+        # #render(request, 'online_test/problem_bank.html', {'choice': infos_choice, 'judge':)
     return render(request, 'online_test/problem_single.html', {"content": get, "type": flag})
 
 def problem_del(request: HttpRequest, pk):
@@ -427,11 +550,13 @@ def problem_del(request: HttpRequest, pk):
         flag = 0
         get = get_object_or_404(TrueOrFalseQuestion, pk=pk)
     get.delete()
-    choice = ChoiceQuestion.objects.filter(creator=login_teacher)
-    infos_choice = choice_json(choice)
-    judge = TrueOrFalseQuestion.objects.filter(creator=login_teacher)
-    infos_judge = judge_json(judge)
-    return render(request, 'online_test/problem_bank.html', {'choice': infos_choice, 'judge': infos_judge})
+    #choice = ChoiceQuestion.objects.filter(creator=login_teacher)
+    #infos_choice = choice_json(choice)
+    #judge = TrueOrFalseQuestion.objects.filter(creator=login_teacher)
+    #infos_judge = judge_json(judge)
+    return HttpResponse(json.dumps({'success': True, 'result': 'ok'}), content_type="application/json")
+    #HttpResponse(json.dumps({'choice': infos_choice, 'judge': infos_judge}))
+    # #render(request, 'online_test/problem_bank.html', {'choice': infos_choice, 'judge': infos_judge})
 
 
 

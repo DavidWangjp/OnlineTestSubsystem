@@ -9,7 +9,7 @@ $(document).ready(function () {
 
         $.ajax({
             url: data_save.problem_search_url,
-            type: 'get',
+            method: 'post',
             dataType: 'json',
             data: post_data,
             async: false,
@@ -17,6 +17,9 @@ $(document).ready(function () {
                 if (data['result'] === "ok")
                     alert('提交成功');
                 console.log(data);
+            },
+            error: function (msg) {
+                console.log(msg);
             }
         });
     });

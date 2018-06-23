@@ -1,0 +1,24 @@
+试卷添加json设计:
+{
+	name
+	subject
+	questions{			#question为一个list，每一项是一个题目
+									，每个题目使用type标记，1为选择题，0为判断题
+	starttime
+	endtime
+	}
+}
+
+
+试卷搜索：
+{
+	name
+	creator
+	subject
+}
+
+url('teacher/test/auto-generation/del/', views.test_del, name="test_del"),
+url('teacher/test/auto-generation/mod/', views.test_mod, name="test_mod"),
+url('teacher/test/auto-generation/add/', views.test_add, name="test_add"),
+url('teacher/test/auto-generation/search/', views.test_search, name="test_search"),
+url('teacher/test/auto-generation', views.AutoTestGeneration.as_view(), name='auto_test_generation'),
