@@ -22,13 +22,13 @@ urlpatterns = [
 
     url('problem_bank/search/', views.problem_search, name="problem_search"),
     url('problem_bank/add/', views.problem_add, name="problem_add"),
-    url('problem_bank/mod/', views.problem_mod, name="problem_mod"),
-    url('problem_bank/del/', views.problem_del, name="problem_del"),
+    url('problem_bank/(?P<pk>[0-9]+)/mod/', views.problem_mod, name="problem_mod"),
+    url('problem_bank/(?P<pk>[0-9]+)/del/', views.problem_del, name="problem_del"),
     url('problem_bank/detail/', views.problem_del, name="problem_detail"),
     url('problem_bank/', views.ProblemBank.as_view(), name='problem_bank'),
 
-    url('teacher/test/auto-generation/del/', views.test_del, name="test_del"),
-    url('teacher/test/auto-generation/mod/', views.test_mod, name="test_mod"),
+    url('teacher/test/auto-generation/(?P<pk>[0-9]+)/del/', views.test_del, name="test_del"),
+    url('teacher/test/auto-generation/(?P<pk>[0-9]+)/mod/', views.test_mod, name="test_mod"),
     url('teacher/test/auto-generation/add/', views.test_add, name="test_add"),
     url('teacher/test/auto-generation/search/', views.test_search, name="test_search"),
     url('teacher/test/auto-generation', views.AutoTestGeneration.as_view(), name='auto_test_generation'),
