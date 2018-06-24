@@ -387,7 +387,7 @@ def test_json(test):
                 "true_or_false_questions": judge_json(reever.true_or_false_questions),
                 "creator": reever.creator,
                 "subject": reever.subject, "start_time": reever.start_time,
-                "end_time": reever.end_time}
+                "end_time": reever.end_time, "pk": reever.pk}
         infos_choice[count + ""] = info
     return infos_choice
 
@@ -477,7 +477,7 @@ def choice_json(choice):
                 "choice_b": reever.choice_b, "choice_c": reever.choice_c, "choice_d": reever.choice_d,
                 "solution": reever.solution, "score": reever.score, "creator": reever.creator,
                 "subject": reever.subject, "chapter": reever.chapter, "knowledge_point": reever.knowledge_point,
-                "add_time": reever.add_time, "last_modify_time": reever.latest_modify_time}
+                "add_time": reever.add_time, "last_modify_time": reever.latest_modify_time, "pk": reever.pk}
         infos_choice[count + ""] = info
     return infos_choice
 
@@ -489,7 +489,7 @@ def judge_json(judge):
         info = {"content": reever.content,
                 "solution": reever.solution, "score": reever.score, "creator": reever.creator,
                 "subject": reever.subject, "chapter": reever.chapter, "knowledge_point": reever.knowledge_point,
-                "add_time": reever.add_time, "last_modify_time": reever.latest_modify_time}
+                "add_time": reever.add_time, "last_modify_time": reever.latest_modify_time, "pk": reever.pk}
         infos_judge[count + ""] = info
     return infos_judge
 
