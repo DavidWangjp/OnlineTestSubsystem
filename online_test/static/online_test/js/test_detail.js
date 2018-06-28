@@ -170,6 +170,15 @@ function show_time() {
 
 $(document).ready(function () {
     $('#submit_TF').click(function () {
+
+        var time_start = new Date().getTime();
+        var time_end = new Date(data_save.due).getTime();
+
+        if(time_end < time_start){
+            alert("无法提交：测试已结束");
+            return;
+        }
+
         const post_data = {};
         post_data["test_id"] = data_save.test_id;
         post_data["type"] = "true_or_false";

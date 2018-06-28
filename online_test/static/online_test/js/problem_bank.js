@@ -3,7 +3,7 @@ $(document).ready(function () {
     data_save = data;
     $('#btn-search-problem').click(function () {
         const post_data = {};
-        post_data["type"] = 0;
+        post_data["type"] = 1;
         post_data["creator"] = $("#creator").val();
         post_data["subject"] = $("#subject").val();
         post_data["chapter"] = $("#chapter").val();

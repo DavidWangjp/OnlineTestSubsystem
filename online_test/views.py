@@ -5,20 +5,45 @@ from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 import json
 from .models import Test, ChoiceQuestionAnswerRecord, ChoiceQuestion, TrueOrFalseQuestionAnswerRecord, \
-    TrueOrFalseQuestion, Student, Teacher, Chapter, KnowledgePoint #, ProblemSearch
-#from .forms import ProblemSearchForm
+    TrueOrFalseQuestion, Student, Teacher, Chapter, KnowledgePoint, Subject
+
 login_student = Student.objects.all()[0]
 login_teacher = Teacher.objects.all()[0]
 
 
-class IndexView(generic.ListView):
-    model = Test
-    template_name = 'online_test/index.html'
+class SubjectsTeacherView(generic.ListView):
+    model = Subject
+    template_name = 'online_test/subjects_teacher.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        object_list = Test.objects.filter(attend_students=login_student)
+        object_list = login_teacher.subjects.all()
         context['object_list'] = object_list
+        return context
+
+
+class SubjectsStudentView(generic.ListView):
+    model = Subject
+    template_name = 'online_test/subjects_student.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        object_list = login_student.subjects.all()
+        context['object_list'] = object_list
+        return context
+
+
+class TestsView(generic.ListView):
+    model = Test
+    template_name = 'online_test/tests.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        subject = Subject.objects.get(id=self.kwargs['subject'])
+
+        context = super().get_context_data(**kwargs)
+        object_list = Test.objects.filter(attend_students=login_student, subject=subject)
+        context['object_list'] = object_list
+        context['subject_id'] = subject.id
         return context
 
 
@@ -85,9 +110,13 @@ class TeacherStatisticsTests(generic.ListView):
     template_name = 'online_test/teacher_statistics_tests.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        subject = Subject.objects.get(id=self.kwargs['subject'])
+
         context = super().get_context_data(**kwargs)
-        object_list = Test.objects.filter(creator=login_teacher)
+        object_list = Test.objects.filter(creator=login_teacher, subject=subject)
         context['object_list'] = object_list
+        context['subject_id'] = subject.id
+
         return context
 
 
@@ -97,8 +126,11 @@ class TeacherStatisticsChapters(generic.ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        subject = Subject.objects.get(id=self.kwargs['subject'])
+
         object_list = {}
-        for test in Test.objects.filter(creator=login_teacher):
+        for test in Test.objects.filter(creator=login_teacher, subject=subject):
             for record in ChoiceQuestionAnswerRecord.objects.filter(test=test):
                 if record.question.chapter not in object_list.keys():
                     object_list[record.question.chapter] = {'correct_num': 0, 'total_num': 1}
@@ -119,6 +151,8 @@ class TeacherStatisticsChapters(generic.ListView):
                     if record.answer == record.question.solution:
                         object_list[record.question.chapter]['correct_num'] += 1
         context['object_list'] = object_list
+        context['subject_id'] = subject.id
+
         return context
 
 
@@ -128,8 +162,10 @@ class TeacherStatisticsKnowledgePoints(generic.ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        subject = Subject.objects.get(id=self.kwargs['subject'])
+
         object_list = {}
-        for test in Test.objects.filter(creator=login_teacher):
+        for test in Test.objects.filter(creator=login_teacher, subject=subject):
             print(test)
             for record in ChoiceQuestionAnswerRecord.objects.filter(test=test):
                 if record.question.knowledge_point not in object_list.keys():
@@ -151,6 +187,8 @@ class TeacherStatisticsKnowledgePoints(generic.ListView):
                     if record.answer == record.question.solution:
                         object_list[record.question.knowledge_point]['correct_num'] += 1
         context['object_list'] = object_list
+        context['subject_id'] = subject.id
+
         return context
 
 
@@ -271,9 +309,12 @@ class StudentStatistics(generic.ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        object_list = Test.objects.filter(attend_students=login_student)
+        subject = Subject.objects.get(id=self.kwargs['subject'])
+
+        object_list = Test.objects.filter(attend_students=login_student, subject=subject)
         context['object_list'] = object_list
         context['student_id'] = login_student.id
+        context['subject_id'] = subject.id
 
         return context
 
@@ -426,8 +467,8 @@ def test_json(test):
 def test_search(request: HttpRequest):
     if request.method == "POST":
         infos = {}
-        test = Test.objects.filter(name=request.POST.get("name"),
-                                   creator=request.POST.get("creator"), subject=request.POST.get("subject"))
+        test = Test.objects.all() #filter(name=request.POST.get("name"),
+                             #      creator=request.POST.get("creator"), subject=request.POST.get("subject"))
         infos = test_json(test)
         return HttpResponse(json.dumps({'infos': infos}), content_type="application/json")
 
@@ -449,15 +490,20 @@ def problem_detail(request: HttpRequest):
 def problem_search(request: HttpRequest):
     if request.method == "POST":
         print('post')
+        print(request.POST.get("type"))
         infos = {}
-        if request.POST.get("type") == 1:
-            result = ChoiceQuestion.objects.filter(creator=request.POST.get("creator"), subject=request.POST.get("subject"),
-                                                   chapter=request.POST.get("chapter"), knowledge_point=request.POST.get("knowledge_point"))
+        if request.POST.get("type") == "1":
+            result = ChoiceQuestion.objects.all()#filter(creator=request.POST.get("creator"), subject=request.POST.get("subject"),
+                                             #      chapter=request.POST.get("chapter"), knowledge_point=request.POST.get("knowledge_point"))
+            print(result.all())
             infos = choice_json(result)
-        elif request.POST.get("type") == 0:
-            result = TrueOrFalseQuestion.objects.filter(creator=request.POST.get("creator"), subject=request.POST.get("subject"),
-                                                   chapter=request.POST.get("chapter"), knowledge_point=request.POST.get("knowledge_point"))
+            # print('end: '+infos)
+        elif request.POST.get("type") == "0":
+            result = TrueOrFalseQuestion.objects.all()
+            # filter(creator=request.POST.get("creator"), subject=request.POST.get("subject"),
+                                                   # chapter=request.POST.get("chapter"), knowledge_point=request.POST.get("knowledge_point"))
             infos = judge_json(result)
+            print(result.count())
         return HttpResponse(json.dumps({'infos': infos}), content_type="application/json")
 
 
@@ -504,16 +550,17 @@ def problem_add(request: HttpRequest):
 
 
 def choice_json(choice):
-    infos_choice = {}
+    infos_choice = []
     count = -1
     for reever in choice:
+        print("1111")
         count = count + 1
         info = {"content": reever.content, "choice_a": reever.choice_a,
                 "choice_b": reever.choice_b, "choice_c": reever.choice_c, "choice_d": reever.choice_d,
                 "solution": reever.solution, "score": reever.score, "creator": reever.creator,
                 "subject": reever.subject, "chapter": reever.chapter, "knowledge_point": reever.knowledge_point,
                 "add_time": reever.add_time, "last_modify_time": reever.latest_modify_time, "pk": reever.pk}
-        infos_choice[count + ""] = info
+        infos_choice.append({count: info})
     return infos_choice
 
 
@@ -532,15 +579,15 @@ def judge_json(judge):
 
 def problem_mod(request: HttpRequest, pk):
     # try:
-    if request.POST.get("type") == 1:
+    if request.POST.get("type") == "1":
         flag = 1
         get = get_object_or_404(ChoiceQuestion, pk=pk)
     # except BaseException:
-    elif request.POST.get("type") == 0:
+    elif request.POST.get("type") == "0":
         flag = 0
         get = get_object_or_404(TrueOrFalseQuestion, pk=pk)
     if request.method == "POST":
-        if flag == 1:
+        if flag == "1":
             result = ChoiceQuestion(
                 content=get.content,
                 choice_a=get.choice_a,
@@ -557,7 +604,7 @@ def problem_mod(request: HttpRequest, pk):
                 latest_modify_time=timezone.now()
             )
             result.save()
-        elif flag == 0:
+        elif flag == "0":
             result = TrueOrFalseQuestion(
                 content=get.content,
                 solution=get.solution,
@@ -582,10 +629,10 @@ def problem_mod(request: HttpRequest, pk):
 
 def problem_del(request: HttpRequest, pk):
     try:
-        flag = 1
+        flag = "1"
         get = get_object_or_404(ChoiceQuestion, pk=pk)
     except BaseException:
-        flag = 0
+        flag = "0"
         get = get_object_or_404(TrueOrFalseQuestion, pk=pk)
     get.delete()
     #choice = ChoiceQuestion.objects.filter(creator=login_teacher)

@@ -1,11 +1,13 @@
 from django.conf.urls import url
 
 from . import views
+from django.contrib import admin
 
 app_name = 'online_test'
 urlpatterns = [
-    #url('', views.IndexView.as_view(), name='index'),
-    url('test/<int:pk>/', views.TestDetail.as_view(), name='test_detail'),
+    #   url('', views.IndexView.as_view(), name='index'),
+    url(r'^admin/', admin.site.urls),
+    url('test/(?P<pk>[0-9]+)/', views.TestDetail.as_view(), name='test_detail'),
     url('test/submit_answer/', views.submit_answer, name='judge'),
     url('teacher/test/manual-generation', views.ManualTestGeneration.as_view(), name='manual_test_generation'),
     url('statistics/teacher/tests', views.TeacherStatisticsTests.as_view(), name='teacher_statistics_tests'),
@@ -13,10 +15,10 @@ urlpatterns = [
     url('statistics/teacher/knowledge_points', views.TeacherStatisticsKnowledgePoints.as_view(),
          name='teacher_statistics_knowledge_points'),
     url('statistics/student/', views.StudentStatistics.as_view(), name='student_statistics'),
-    url('test_statistics/<int:pk>/', views.TestStatistics.as_view(), name='test_statistics'),
-    url('test_statistics/<int:pk>/<int:student_pk>/', views.TestStatisticsStudentRecord.as_view(),
+    url('test_statistics/(?P<pk>[0-9]+)/', views.TestStatistics.as_view(), name='test_statistics'),
+    url('test_statistics/(?P<pk>[0-9]+)/(?P<student_pk>[0-9]+)/', views.TestStatisticsStudentRecord.as_view(),
          name='test_statistics_student_record'),
-    url('test_statistics/teacher/<int:pk>/<int:student_pk>/', views.TestStatisticsTeacherRecord.as_view(),
+    url('test_statistics/teacher/(?P<pk>[0-9]+)/(?P<student_pk>[0-9]+)/', views.TestStatisticsTeacherRecord.as_view(),
          name='test_statistics_teacher_record'),
 
     url('problem_bank/single_problem/choice', views.SingleChoice.as_view(), name='problem_choice'),
@@ -36,5 +38,11 @@ urlpatterns = [
     url('teacher/test/auto-generation/add/', views.test_add, name="test_add"),
     url('teacher/test/auto-generation/search/', views.test_search, name="test_search"),
     url('teacher/test/auto-generation', views.AutoTestGeneration.as_view(), name='auto_test_generation'),
-    # url('chapter_statistics/<int:pk>', views.TeacherStatisticsChapters.as_view(), name='teacher_statistics_chapters')
+    # url('chapter_statistics/(?P<pk>[0-9]+)', views.TeacherStatisticsChapters.as_view(), name='teacher_statistics_chapters')
+
+
+
+    # path('subjects/student', views.SubjectsStudentView.as_view(), name='subjects_student'),
+    # path('subjects/teacher', views.SubjectsTeacherView.as_view(), name='subjects_teacher'),
+    # path('subject/<int:subject>/tests', views.TestsView.as_view(), name='tests'),
 ]
