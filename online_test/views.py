@@ -3,20 +3,34 @@ from django.utils import timezone
 from django.views import generic
 import json
 from .models import Test, ChoiceQuestionAnswerRecord, ChoiceQuestion, TrueOrFalseQuestionAnswerRecord, \
-    TrueOrFalseQuestion, Student, Teacher, Chapter, KnowledgePoint
+    TrueOrFalseQuestion, Student, Teacher, Chapter, KnowledgePoint, Subject
 
 login_student = Student.objects.all()[0]
 login_teacher = Teacher.objects.all()[0]
 
 
-class IndexView(generic.ListView):
-    model = Test
-    template_name = 'online_test/index.html'
+class SubjectsView(generic.ListView):
+    model = Subject
+    template_name = 'online_test/subjects.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        object_list = Test.objects.filter(attend_students=login_student)
+        object_list = login_student.subjects.all()
         context['object_list'] = object_list
+        return context
+
+
+class TestsView(generic.ListView):
+    model = Test
+    template_name = 'online_test/tests.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        subject = Subject.objects.get(id=self.kwargs['subject'])
+
+        context = super().get_context_data(**kwargs)
+        object_list = Test.objects.filter(attend_students=login_student, subject=subject)
+        context['object_list'] = object_list
+        context['subject_id'] = subject.id
         return context
 
 
@@ -43,9 +57,13 @@ class TeacherStatisticsTests(generic.ListView):
     template_name = 'online_test/teacher_statistics_tests.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        subject = Subject.objects.get(id=self.kwargs['subject'])
+
         context = super().get_context_data(**kwargs)
-        object_list = Test.objects.filter(creator=login_teacher)
+        object_list = Test.objects.filter(creator=login_teacher, subject=subject)
         context['object_list'] = object_list
+        context['subject_id'] = subject.id
+
         return context
 
 
@@ -55,8 +73,11 @@ class TeacherStatisticsChapters(generic.ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        subject = Subject.objects.get(id=self.kwargs['subject'])
+
         object_list = {}
-        for test in Test.objects.filter(creator=login_teacher):
+        for test in Test.objects.filter(creator=login_teacher, subject=subject):
             for record in ChoiceQuestionAnswerRecord.objects.filter(test=test):
                 if record.question.chapter not in object_list.keys():
                     object_list[record.question.chapter] = {'correct_num': 0, 'total_num': 1}
@@ -77,6 +98,8 @@ class TeacherStatisticsChapters(generic.ListView):
                     if record.answer == record.question.solution:
                         object_list[record.question.chapter]['correct_num'] += 1
         context['object_list'] = object_list
+        context['subject_id'] = subject.id
+
         return context
 
 
@@ -86,8 +109,10 @@ class TeacherStatisticsKnowledgePoints(generic.ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        subject = Subject.objects.get(id=self.kwargs['subject'])
+
         object_list = {}
-        for test in Test.objects.filter(creator=login_teacher):
+        for test in Test.objects.filter(creator=login_teacher, subject=subject):
             print(test)
             for record in ChoiceQuestionAnswerRecord.objects.filter(test=test):
                 if record.question.knowledge_point not in object_list.keys():
@@ -109,6 +134,8 @@ class TeacherStatisticsKnowledgePoints(generic.ListView):
                     if record.answer == record.question.solution:
                         object_list[record.question.knowledge_point]['correct_num'] += 1
         context['object_list'] = object_list
+        context['subject_id'] = subject.id
+
         return context
 
 
@@ -186,6 +213,7 @@ class TestStatisticsStudentRecord(generic.DetailView):
         context['C_total_score'] = C_total_score
         return context
 
+
 class TestStatisticsTeacherRecord(generic.DetailView):
     model = Test
     template_name = 'online_test/test_statistics_teacher_record.html'
@@ -221,15 +249,19 @@ class TestStatisticsTeacherRecord(generic.DetailView):
         context['C_total_score'] = C_total_score
         return context
 
+
 class StudentStatistics(generic.ListView):
     model = Test
     template_name = 'online_test/student_statistics.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        object_list = Test.objects.filter(attend_students=login_student)
+        subject = Subject.objects.get(id=self.kwargs['subject'])
+
+        object_list = Test.objects.filter(attend_students=login_student, subject=subject)
         context['object_list'] = object_list
         context['student_id'] = login_student.id
+        context['subject_id'] = subject.id
 
         return context
 
