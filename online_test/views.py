@@ -496,8 +496,10 @@ def problem_search(request: HttpRequest):
             result = ChoiceQuestion.objects.all()#filter(creator=request.POST.get("creator"), subject=request.POST.get("subject"),
                                              #      chapter=request.POST.get("chapter"), knowledge_point=request.POST.get("knowledge_point"))
             print(result.all())
+            print("333")
             infos = choice_json(result)
             # print('end: '+infos)
+            print("222")
         elif request.POST.get("type") == "0":
             result = TrueOrFalseQuestion.objects.all()
             # filter(creator=request.POST.get("creator"), subject=request.POST.get("subject"),
@@ -557,9 +559,9 @@ def choice_json(choice):
         count = count + 1
         info = {"content": reever.content, "choice_a": reever.choice_a,
                 "choice_b": reever.choice_b, "choice_c": reever.choice_c, "choice_d": reever.choice_d,
-                "solution": reever.solution, "score": reever.score, "creator": reever.creator,
-                "subject": reever.subject, "chapter": reever.chapter, "knowledge_point": reever.knowledge_point,
-                "add_time": reever.add_time, "last_modify_time": reever.latest_modify_time, "pk": reever.pk}
+                "solution": reever.solution, "score": reever.score, "creator": reever.creator.name,
+                "subject": reever.subject, "chapter": reever.chapter.chapter, "knowledge_point": reever.knowledge_point.knowledge_point,
+                "pk": reever.pk}
         infos_choice.append({count: info})
     return infos_choice
 
@@ -570,8 +572,8 @@ def judge_json(judge):
     for reever in judge:
         count = count + 1
         info = {"content": reever.content,
-                "solution": reever.solution, "score": reever.score, "creator": reever.creator,
-                "subject": reever.subject, "chapter": reever.chapter, "knowledge_point": reever.knowledge_point,
+                "solution": reever.solution, "score": reever.score, "creator": reever.creator.name,
+                "subject": reever.subject, "chapter": reever.chapter.chapter, "knowledge_point": reever.knowledge_point.knowledge_point,
                 "add_time": reever.add_time, "last_modify_time": reever.latest_modify_time, "pk": reever.pk}
         infos_judge[count + ""] = info
     return infos_judge
