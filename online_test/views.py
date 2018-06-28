@@ -49,13 +49,36 @@ class SingleProblem(generic.ListView):
     model = Test
     template_name = 'online_test/problem_single.html'
 
+
+class SingleChoice(generic.ListView):
+    model = Test
+    template_name = 'online_test/problem_single_choice.html'
+
+
+class SingleJudge(generic.ListView):
+    model = Test
+    template_name = 'online_test/problem_single_judge.html'
+
+
+class SingleStaticChoice(generic.ListView):
+    model = Test
+    template_name = 'online_test/problem_single_static_choice.html'
+
+
+class SingleStaticJudge(generic.ListView):
+    model = Test
+    template_name = 'online_test/problem_single_static_judge.html'
+
+
 class ManualTestGeneration(generic.ListView):
     model = Test
     template_name = 'online_test/manual_test_generation.html'
 
+
 class AutoTestGeneration(generic.ListView):
     model = Test
     template_name = 'online_test/auto_test_generation.html'
+
 
 class TeacherStatisticsTests(generic.ListView):
     model = Test
@@ -205,6 +228,7 @@ class TestStatisticsStudentRecord(generic.DetailView):
         context['C_total_score'] = C_total_score
         return context
 
+
 class TestStatisticsTeacherRecord(generic.DetailView):
     model = Test
     template_name = 'online_test/test_statistics_teacher_record.html'
@@ -240,6 +264,7 @@ class TestStatisticsTeacherRecord(generic.DetailView):
         context['C_total_score'] = C_total_score
         return context
 
+
 class StudentStatistics(generic.ListView):
     model = Test
     template_name = 'online_test/student_statistics.html'
@@ -251,6 +276,7 @@ class StudentStatistics(generic.ListView):
         context['student_id'] = login_student.id
 
         return context
+
 
 def submit_answer(request: HttpRequest):
     if request.method == 'POST':
@@ -296,6 +322,7 @@ def submit_answer(request: HttpRequest):
                         record.save()
     return HttpResponse(json.dumps({'success': True, 'result': 'ok'}))
 
+
 def choice_re(data):
     choice = ChoiceQuestion(
         content=data["content"],
@@ -328,7 +355,8 @@ def judge_re(data):
     )
     return judge
 
-def  test_add(request: HttpRequest):
+
+def test_add(request: HttpRequest):
     if request.method == "POST":
         select = []
         judge = []
@@ -351,7 +379,8 @@ def  test_add(request: HttpRequest):
         test.save()
     return HttpResponse(json.dumps({'success': True, 'result': 'ok'}), content_type="application/json")
 
-def  test_mod(request: HttpRequest, pk):
+
+def test_mod(request: HttpRequest, pk):
     get = get_object_or_404(Test, pk=pk)
     if request.method == "POST":
         select = []
@@ -373,10 +402,12 @@ def  test_mod(request: HttpRequest, pk):
         get.save()
     return HttpResponse(json.dumps({'success': True, 'result': 'ok'}), content_type="application/json")
 
+
 def test_del(request: HttpRequest, pk):
     get = get_object_or_404(Test, pk=pk)
     get.delete()
     return HttpResponse(json.dumps({'success': True, 'result': 'ok'}), content_type="application/json")
+
 
 def test_json(test):
     infos_choice = {}
@@ -391,6 +422,7 @@ def test_json(test):
         infos_choice[count + ""] = info
     return infos_choice
 
+
 def test_search(request: HttpRequest):
     if request.method == "POST":
         infos = {}
@@ -398,6 +430,7 @@ def test_search(request: HttpRequest):
                                    creator=request.POST.get("creator"), subject=request.POST.get("subject"))
         infos = test_json(test)
         return HttpResponse(json.dumps({'infos': infos}), content_type="application/json")
+
 
 def problem_detail(request: HttpRequest):
     if request.method == "POST":
@@ -412,8 +445,8 @@ def problem_detail(request: HttpRequest):
             infos = judge_json(result)
         return render(request, 'online_test/problem_single.html', {'infos': infos})
 
+
 def problem_search(request: HttpRequest):
-    print('get')
     if request.method == "POST":
         print('post')
         infos = {}
@@ -427,17 +460,18 @@ def problem_search(request: HttpRequest):
             infos = judge_json(result)
         return HttpResponse(json.dumps({'infos': infos}), content_type="application/json")
 
+
 def problem_add(request: HttpRequest):
     if request.method == "POST":
         if request.POST.get("type") == 1:
             result = ChoiceQuestion(
-                content = request.POST.get("content"),
-                choice_a = request.POST.get("choice_a"),
+                content=request.POST.get("content"),
+                choice_a=request.POST.get("choice_a"),
                 choice_b=request.POST.get("choice_b"),
                 choice_c=request.POST.get("choice_c"),
                 choice_d=request.POST.get("choice_d"),
                 solution=request.POST.get("solution"),
-                score = request.POST.get("score"),
+                score=request.POST.get("score"),
                 creator=login_teacher,
                 subject=request.POST.get("subject"),
                 chapter=request.POST.get("chapter"),
@@ -468,6 +502,7 @@ def problem_add(request: HttpRequest):
         # #render(request, 'online_test/problem_bank.html', {'choice': infos_choice, 'judge': infos_judge})
     return render(request, 'online_test/problem_single.html')
 
+
 def choice_json(choice):
     infos_choice = {}
     count = -1
@@ -481,6 +516,7 @@ def choice_json(choice):
         infos_choice[count + ""] = info
     return infos_choice
 
+
 def judge_json(judge):
     infos_judge = {}
     count = -1
@@ -492,6 +528,7 @@ def judge_json(judge):
                 "add_time": reever.add_time, "last_modify_time": reever.latest_modify_time}
         infos_judge[count + ""] = info
     return infos_judge
+
 
 def problem_mod(request: HttpRequest, pk):
     # try:
@@ -541,6 +578,7 @@ def problem_mod(request: HttpRequest, pk):
         #HttpResponse(json.dumps({'choice': infos_choice, 'judge': infos_judge}))
         # #render(request, 'online_test/problem_bank.html', {'choice': infos_choice, 'judge':)
     return render(request, 'online_test/problem_single.html', {"content": get, "type": flag})
+
 
 def problem_del(request: HttpRequest, pk):
     try:
