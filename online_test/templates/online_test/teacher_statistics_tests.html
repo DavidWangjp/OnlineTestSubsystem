@@ -90,7 +90,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <td width="50%">
                                 <a href="{% url 'online_test:test_statistics' test.id %}">{{ test.name }}</a>
                             </td>
-                            <td>
+                            <td width="10%">
                                 {{ test.creator }}
                             </td>
                             <td>
@@ -139,20 +139,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <a href="#">
                     <i class="lnr lnr-layers"></i>
                     <span>论坛</span>
-                    <span class="fa fa-angle-right" style="float: right"></span>
                 </a>
-                <ul id="menu-academico-sub">
-                    <li id="menu-academico-avaliacoes">
-                        <a href="tabs.html">Tabs</a>
-                    </li>
-                    <li id="menu-academico-boletim">
-                        <a href="calender.html">Calender</a>
-                    </li>
-
-                </ul>
             </li>
             <li>
-                <a href="#">
+                <a href="{% url 'online_test:subjects_teacher' %}">
                     <i class="lnr lnr-chart-bars"></i>
                     <span>答题系统</span>
                     <span class="fa fa-angle-right" style="float: right"></span>

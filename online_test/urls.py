@@ -4,7 +4,8 @@ from . import views
 
 app_name = 'online_test'
 urlpatterns = [
-    path('subjects', views.SubjectsView.as_view(), name='subjects'),
+    path('subjects/student', views.SubjectsStudentView.as_view(), name='subjects_student'),
+    path('subjects/teacher', views.SubjectsTeacherView.as_view(), name='subjects_teacher'),
     path('subject/<int:subject>/tests', views.TestsView.as_view(), name='tests'),
     path('test/<int:pk>/', views.TestDetail.as_view(), name='test_detail'),
     path('test/submit_answer/', views.submit_answer, name='judge'),

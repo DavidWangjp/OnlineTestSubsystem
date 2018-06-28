@@ -9,9 +9,20 @@ login_student = Student.objects.all()[0]
 login_teacher = Teacher.objects.all()[0]
 
 
-class SubjectsView(generic.ListView):
+class SubjectsTeacherView(generic.ListView):
     model = Subject
-    template_name = 'online_test/subjects.html'
+    template_name = 'online_test/subjects_teacher.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        object_list = login_teacher.subjects.all()
+        context['object_list'] = object_list
+        return context
+
+
+class SubjectsStudentView(generic.ListView):
+    model = Subject
+    template_name = 'online_test/subjects_student.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)

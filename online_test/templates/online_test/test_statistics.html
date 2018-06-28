@@ -202,20 +202,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <a href="#">
                     <i class="lnr lnr-layers"></i>
                     <span>论坛</span>
-                    <span class="fa fa-angle-right" style="float: right"></span>
                 </a>
-                <ul id="menu-academico-sub">
-                    <li id="menu-academico-avaliacoes">
-                        <a href="tabs.html">Tabs</a>
-                    </li>
-                    <li id="menu-academico-boletim">
-                        <a href="calender.html">Calender</a>
-                    </li>
-
-                </ul>
             </li>
             <li>
-                <a href="#">
+                <a href="{% url 'online_test:subjects_teacher' %}">
                     <i class="lnr lnr-chart-bars"></i>
                     <span>答题系统</span>
                     <span class="fa fa-angle-right" style="float: right"></span>
@@ -229,7 +219,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </li>
                     <li>
                         <a href="{% url 'online_test:teacher_statistics_knowledge_points' object.subject.id %}">
-                            知识点统计 </a>
+                            知识点统计
+                        </a>
                     </li>
                 </ul>
             </li>

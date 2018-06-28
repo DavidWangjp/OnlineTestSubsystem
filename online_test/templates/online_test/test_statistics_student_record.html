@@ -258,18 +258,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <a href="#">
                     <i class="lnr lnr-layers"></i>
                     <span>论坛</span>
-                    <span class="fa fa-angle-right" style="float: right"></span>
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="{% url 'online_test:subjects_student' %}">
                     <i class="lnr lnr-chart-bars"></i>
                     <span>答题系统</span>
                     <span class="fa fa-angle-right" style="float: right"></span>
                 </a>
                 <ul>
                     <li>
-                        <a href="{% url 'tests' %}"> 选择题库</a>
+                        <a href="{% url 'online_test:tests' object.subject_id %}"> 选择题库</a>
                     </li>
                     <li>
                         <a href="{% url 'online_test:student_statistics' object.subject.id %}">成绩统计</a>
