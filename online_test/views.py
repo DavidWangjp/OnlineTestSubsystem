@@ -483,21 +483,18 @@ def test_add(request: HttpRequest):
         for every in Student.objects.all():
             test.attend_students.add(every)
 
-        # for key, value in request.POST.items():
-        #     print(key, value)
-        info = request.POST.get("questions[0][pk]")
-        print(info)
+        for key, value in request.POST.items():
+            if "question" in key and "pk" in key:
+                index=key[8:12]
+                ty = "question"+index+"[type]"
+                id_pk = "question"+index+"[pk]"
 
-        for e in info:
-            print(e)
-        info_data = json.loads(info)
-        for key in info_data:
-            if info_data[key]["type"] == "1":
-                select += choice_re(info_data[key])
-            else:
-                judge += judge_re(info_data[key])
-        test.choice_questions = select
-        test.true_or_false_questions = judge
+                if request.POST.get(ty) == '1':
+                    que = ChoiceQuestion.objects.filter(id=int(request.POST.get(id_pk)))[0]
+                    test.choice_questions.add(que)
+                else:
+                    que = TrueOrFalseQuestion.objects.filter(id=int(request.POST.get(id_pk)))[0]
+                    test.true_or_false_questions.add(que)
         test.save()
     return HttpResponse(json.dumps({'success': True, 'result': 'ok'}), content_type="application/json")
 
@@ -545,8 +542,13 @@ def test_gerner(request: HttpRequest):
             name=request.POST.get("name"),
             subject=subject,
             creator=login_teacher,
-            attend_students=[]
+            start_time=timezone.now(),
+            end_time=timezone.now()
         )
+        test.save()
+        for every in Student.objects.all():
+            test.attend_students.add(every)
+
        # info = request.POST.get("questions")
        # info_data = json.loads(info)
        # for key in info_data:
