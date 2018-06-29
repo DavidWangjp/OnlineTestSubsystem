@@ -87,7 +87,8 @@ $(document).ready(function () {
             post_data["choice_c"] = $("#choice_c").val();
             post_data["choice_d"] = $("#choice_d").val();
         }
-        post_data["solution"] = $("#solution").val();
+
+        post_data["solution"] = ($("#solution").val() === "T");
         post_data["score"] = $("#score").val();
         post_data["subject"] = $("#subject").val();
         post_data["chapter"] = $("#chapter").val();
