@@ -17,17 +17,21 @@ $(document).ready(function () {
             data: post_data,
             async: false,
             success: function (data) {
-                console.log(data);
+                let problems = data["infos"];
+                console.log(problems[0][0]["content"]);
+                console.log(problems)
+
                 $("#choice-problem-table-body").empty("");
-                for (var i = 0; i < 5; i++) {
+                for (let index in problems[0]) {
+                    console.log(problems[0][index]["content"]);
                     let table = $('#choice-problem-table-body');
 
                     let new_tr = $("<tr>" +
                         "<td class='hidden'>"  + "he" + "</td>" +
-                        "<td>" + "数学faflajfla f".slice(0, 10) +"..."+ "</td>" +
-                        "<td>" + "数学" + "</td>" +
-                        "<td>" + "ch4" + "</td>" +
-                        "<td>" + "函数" + "</td>" +
+                        "<td>" + problems[0][index]["content"].slice(0, 10) +"..."+ "</td>" +
+                        "<td>" + problems[0][index]["subject"] + "</td>" +
+                        "<td>" + problems[0][index]["chapter"] + "</td>" +
+                        "<td>" + problems[0][index]["knowledge_point"] + "</td>" +
                         "<td>" + "2018-01-12" + "</td>" +
                         "<td><button class='btn btn-primary btn-problem-detail' style='height:80%'>详细 </button></td>" +
                         "</tr>");
@@ -35,15 +39,16 @@ $(document).ready(function () {
                 }
 
                 $("#judge-problem-table-body").empty("");
-                for (var i = 0; i < 3; i++) {
+                for (let index in problems[0]) {
+                    console.log(problems[0][index]["content"]);
                     let table = $('#judge-problem-table-body');
 
                     let new_tr = $("<tr>" +
                         "<td class='hidden'>"  + "he" + "</td>" +
-                        "<td>" + "数学faflajfla f".slice(0, 10) +"..."+ "</td>" +
-                        "<td>" + "数学" + "</td>" +
-                        "<td>" + "ch2" + "</td>" +
-                        "<td>" + "函数" + "</td>" +
+                        "<td>" + problems[0][index]["content"].slice(0, 10) +"..."+ "</td>" +
+                        "<td>" + problems[0][index]["subject"] + "</td>" +
+                        "<td>" + problems[0][index]["chapter"] + "</td>" +
+                        "<td>" + problems[0][index]["knowledge_point"] + "</td>" +
                         "<td>" + "2018-01-12" + "</td>" +
                         "<td><button class='btn btn-primary btn-problem-detail' style='height:80%'>详细 </button></td>" +
                         "</tr>");

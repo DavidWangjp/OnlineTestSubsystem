@@ -511,7 +511,7 @@ def problem_search(request: HttpRequest):
 
 def problem_add(request: HttpRequest):
     if request.method == "POST":
-        if request.POST.get("type") == 1:
+        if request.POST.get("type") == "1":
             result = ChoiceQuestion(
                 content=request.POST.get("content"),
                 choice_a=request.POST.get("choice_a"),
@@ -527,8 +527,9 @@ def problem_add(request: HttpRequest):
                 add_time=timezone.now(),
                 latest_modify_time=timezone.now()
             )
+            print(result)
             result.save()
-        elif request.POST.get("type") == 0:
+        elif request.POST.get("type") == "0":
             result = TrueOrFalseQuestion(
                 content=request.POST.get("content"),
                 solution=request.POST.get("solution"),
@@ -540,6 +541,7 @@ def problem_add(request: HttpRequest):
                 add_time=timezone.now(),
                 latest_modify_time=timezone.now()
             )
+            print(result)
             result.save()
         #choice = ChoiceQuestion.objects.filter(creator=login_teacher)
         #infos_choice = choice_json(choice)
