@@ -488,7 +488,7 @@ def test_json(test):
                 "true_or_false_questions": judge_json(reever.true_or_false_questions),
                 "creator": reever.creator,
                 "subject": reever.subject, "start_time": reever.start_time,
-                "end_time": reever.end_time, "pk": reever.pk}
+                "end_time": reever.end_time, "pk": reever.id}
         infos_choice[count + ""] = info
     return infos_choice
 
@@ -528,12 +528,12 @@ class ProblemDetail(generic.DetailView):
         true_or_false_question_records = []
         if self.kwargs['pk'] == "1":
             pk = ChoiceQuestion.objects.get(id=self.kwargs['pk'])
-            select = ChoiceQuestionAnswerRecord.objects.filter(pk=pk)[0]
-            context['choice_question_answer_record'] = select
+            select = ChoiceQuestion.objects.filter(pk=pk)[0]
+            context['choice_question'] = select
         else:
-            pk = TrueOrFalseQuestionAnswerRecord.objects.get(id=self.kwargs['pk'])
-            judge = TrueOrFalseQuestionAnswerRecord.objects.filter(pk=pk)[0]
-            context['true_or_false_question_answer_record'] = judge
+            pk = TrueOrFalseQuestion.objects.get(id=self.kwargs['pk'])
+            judge = TrueOrFalseQuestion.objects.filter(pk=pk)[0]
+            context['true_or_false_question'] = judge
 
         return context
 
@@ -630,7 +630,7 @@ def choice_json(choice):
                 "choice_b": reever.choice_b, "choice_c": reever.choice_c, "choice_d": reever.choice_d,
                 "solution": reever.solution, "score": reever.score, "creator": reever.creator.name,
                 "subject": reever.subject, "chapter": reever.chapter.chapter, "knowledge_point": reever.knowledge_point.knowledge_point,
-                "pk": reever.pk}
+                "pk": reever.id}
         infos_choice.append({count: info})
     return infos_choice
 
@@ -643,7 +643,7 @@ def judge_json(judge):
         info = {"content": reever.content,
                 "solution": reever.solution, "score": reever.score, "creator": reever.creator.name,
                 "subject": reever.subject, "chapter": reever.chapter.chapter, "knowledge_point": reever.knowledge_point.knowledge_point,
-                "add_time": reever.add_time, "last_modify_time": reever.latest_modify_time, "pk": reever.pk}
+                "add_time": reever.add_time, "last_modify_time": reever.latest_modify_time, "pk": reever.id}
         infos_judge[count + ""] = info
     return infos_judge
 
