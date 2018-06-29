@@ -5,8 +5,8 @@
 
     const data = {
         "problem_add_url": "{% url 'online_test:problem_add' %}",
-        "problem_mod_url": "{% url 'online_test:problem_mod' %}",
-        "problem_delete_url": "{% url 'online_test:problem_del' %}",
+        {#"problem_mod_url": "{% url 'online_test:problem_mod' %}",#}
+        {#"problem_delete_url": "{% url 'online_test:problem_del' %}",#}
     };
 </script>
 <head>
@@ -163,7 +163,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                         <div>
                                                             <span>分值</span>
                                                             <div></div>
-                                                            <input type="text">
+                                                            <input id="score" type="text">
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -176,7 +176,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <div>
                                     <div class="form-group">
                                         <label for="name">题干内容</label>
-                                        <textarea class="form-control" rows="3" id="content "></textarea>
+                                        <textarea class="form-control" rows="3" id="content">fuck</textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="name">选项内容</label>

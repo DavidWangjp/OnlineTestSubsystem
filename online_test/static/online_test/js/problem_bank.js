@@ -73,7 +73,7 @@ $(document).ready(function () {
             type: 'GET',
             async: false,
             success: function (data) {
-               console.log(data);
+               // console.log(data);
             },
             error: function (msg) {
                 console.log('error');
@@ -81,10 +81,14 @@ $(document).ready(function () {
             }
 
         });
+        var new_window;
         if ($('#choice_problem').is('.active')) {
-             window.open(data_save.problem_choice_detail_url+'?pk='+pk);
+             new_window = window.open(data_save.problem_choice_detail_url+'?pk='+pk);
+             $(new_window.document).find('#content').val('hello-world')
+             console.log($(new_window.document).html());
         } else {
-            window.open(data_save.problem_judge_detail_url+'?pk='+pk);
+            new_window = window.open(data_save.problem_judge_detail_url+'?pk='+pk);
+            $(new_window.document).find("#content").attr('value', '1121');
         }
     });
 
