@@ -468,24 +468,33 @@ def test_add(request: HttpRequest):
     if request.method == "POST":
         select = []
         judge = []
+        print(request.POST.get("subject"))
         subject = Subject.objects.filter(name=request.POST.get("subject"))[0]
-
+        print(request.POST.get("name"))
         #查出改科目对应的考试时间
         test = Test(
             name=request.POST.get("name"),
             subject=subject,
             creator=login_teacher,
-            attend_students=[]
+            start_time=timezone.now(),
+            end_time=timezone.now()
         )
-        info = request.POST.get("questions")
-        info_data = json.loads(info)
-        for key in info_data:
-            if info_data[key]["type"] == 1:
-                select += choice_re(info_data[key])
-            else:
-                judge += judge_re(info_data[key])
-        test.choice_questions = select
-        test.true_or_false_questions = judge
+        test.save()
+        for every in Student.objects.all():
+            test.attend_students.add(every)
+
+
+        for key, value in request.POST.items():
+            if "question" in key and "pk" in key:
+                index=key[8:11]
+                ty = "question"+index+"[type]"
+                id_pk = "question"+index+"[pk]"
+                if request.POST.get(ty) == '1':
+                    que = ChoiceQuestion.objects.filter(id=id_pk)[0]
+                    test.choice_questions.add(que)
+                else:
+                    que = TrueOrFalseQuestion.objects.filter(id=id_pk)[0]
+                    test.true_or_false_questions.add(que)
         test.save()
     return HttpResponse(json.dumps({'success': True, 'result': 'ok'}), content_type="application/json")
 
