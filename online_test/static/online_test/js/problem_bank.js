@@ -1,6 +1,7 @@
 let data_save;
 $(document).ready(function () {
     data_save = data;
+
     $('#btn-search-problem').click(function () {
         const post_data = {};
         post_data["type"] = 1;
@@ -94,7 +95,7 @@ $(document).ready(function () {
         post_data["chapter"] = $("#chapter").val();
         post_data["knowledge_point"] = $("#knowledge_point").val();
 
-
+        console.log(post_data)
         $.ajax({
             url: data_save.problem_add_url,
             type: 'post',
