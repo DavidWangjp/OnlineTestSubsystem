@@ -81,7 +81,34 @@ class SingleChoice(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['problem'] = {'subject': 'zxy'}
+        T_score = 0
+        T_total_score = 0
+        C_score = 0
+        C_total_score = 0
+        choice_question_records = []
+        true_or_false_question_records = []
+        pk = int(self.kwargs['pk'])
+        select = ChoiceQuestion.objects.filter(pk=int(pk))[0]
+        context['problem'] = select
+
+        return context
+
+
+class SingleStaticChoice(generic.ListView):
+    model = Test
+    template_name = 'online_test/problem_single_static_choice.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        T_score = 0
+        T_total_score = 0
+        C_score = 0
+        C_total_score = 0
+        choice_question_records = []
+        true_or_false_question_records = []
+        pk = int(self.kwargs['pk'])
+        select = ChoiceQuestion.objects.filter(pk=int(pk))[0]
+        context['problem'] = select
 
         return context
 
@@ -90,15 +117,49 @@ class SingleJudge(generic.ListView):
     model = Test
     template_name = 'online_test/problem_single_judge.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        T_score = 0
+        T_total_score = 0
+        C_score = 0
+        C_total_score = 0
+        choice_question_records = []
+        true_or_false_question_records = []
+        pk = int(self.kwargs['pk'])
+        print(pk)
+        judge = TrueOrFalseQuestion.objects.filter(pk=pk)[0]
+        context['problem'] = judge
 
-class SingleStaticChoice(generic.ListView):
-    model = Test
-    template_name = 'online_test/problem_single_static_choice.html'
+        return context
 
 
 class SingleStaticJudge(generic.ListView):
     model = Test
     template_name = 'online_test/problem_single_static_judge.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        T_score = 0
+        T_total_score = 0
+        C_score = 0
+        C_total_score = 0
+        choice_question_records = []
+        true_or_false_question_records = []
+        pk = int(self.kwargs['pk'])
+        print(pk)
+        judge = TrueOrFalseQuestion.objects.filter(pk=pk)[0]
+        context['problem'] = judge
+
+        return context
+
+# class SingleStaticChoice(generic.ListView):
+#     model = Test
+#     template_name = 'online_test/problem_single_static_choice.html'
+#
+#
+# class SingleStaticJudge(generic.ListView):
+#     model = Test
+#     template_name = 'online_test/problem_single_static_judge.html'
 
 
 class ManualTestGeneration(generic.ListView):
@@ -407,7 +468,7 @@ def test_add(request: HttpRequest):
     if request.method == "POST":
         select = []
         judge = []
-        subject = Subject.objects.filter(name = request.POST.get("subject"))[0]
+        subject = Subject.objects.filter(name=request.POST.get("subject"))[0]
 
         #查出改科目对应的考试时间
         test = Test(
@@ -459,6 +520,7 @@ def test_del(request: HttpRequest, pk):
     get.delete()
     return HttpResponse(json.dumps({'success': True, 'result': 'ok'}), content_type="application/json")
 
+
 def test_gerner(request: HttpRequest):
     if request.method == "POST":
         select = []
@@ -494,7 +556,7 @@ def test_json(test):
                 "true_or_false_questions": judge_json(reever.true_or_false_questions),
                 "creator": reever.creator,
                 "subject": reever.subject, "start_time": reever.start_time,
-                "end_time": reever.end_time, "pk": reever.pk}
+                "end_time": reever.end_time, "pk": reever.id}
         infos_choice[count + ""] = info
     return infos_choice
 
@@ -507,19 +569,6 @@ def test_search(request: HttpRequest):
         infos = test_json(test)
         return HttpResponse(json.dumps({'infos': infos}), content_type="application/json")
 
-
-#def problem_detail(request: HttpRequest):
-#    if request.method == "POST":
-#        infos = {}
-#        if request.POST.get("type") == "1":
-#            result = ChoiceQuestion.objects.all() #filter(creator=request.POST.get("creator"), subject=request.POST.get("subject"),
-#                                                  # chapter=request.POST.get("chapter"), knowledge_point=request.POST.get("knowledge_point"))
-#            infos = choice_json(result)
-#        elif request.POST.get("type") == "0":
-#            result = TrueOrFalseQuestion.objects.all() #filter(creator=request.POST.get("creator"), subject=request.POST.get("subject"),
-#                                                       #chapter=request.POST.get("chapter"), knowledge_point=request.POST.get("knowledge_point"))
-#            infos = judge_json(result)
-#        return render(request, 'online_test/problem_single.html', {'infos': infos})
 
 class ProblemDetail(generic.DetailView):
     template_name = 'online_test/problem_single.html'
@@ -543,6 +592,7 @@ class ProblemDetail(generic.DetailView):
 
         return context
 
+
 def problem_search(request: HttpRequest):
     if request.method == "POST":
         print('post')
@@ -552,10 +602,8 @@ def problem_search(request: HttpRequest):
             result = ChoiceQuestion.objects.all()#filter(creator=request.POST.get("creator"), subject=request.POST.get("subject"),
                                              #      chapter=request.POST.get("chapter"), knowledge_point=request.POST.get("knowledge_point"))
             print(result.all())
-            print("333")
             infos = choice_json(result)
             # print('end: '+infos)
-            print("222")
         elif request.POST.get("type") == "0":
             result = TrueOrFalseQuestion.objects.all()
             # filter(creator=request.POST.get("creator"), subject=request.POST.get("subject"),
@@ -635,22 +683,24 @@ def choice_json(choice):
         info = {"content": reever.content, "choice_a": reever.choice_a,
                 "choice_b": reever.choice_b, "choice_c": reever.choice_c, "choice_d": reever.choice_d,
                 "solution": reever.solution, "score": reever.score, "creator": reever.creator.name,
-                "subject": reever.subject, "chapter": reever.chapter.chapter, "knowledge_point": reever.knowledge_point.knowledge_point,
-                "pk": reever.pk}
+                # "subject": reever.subject.name,
+                "chapter": reever.chapter.chapter, "knowledge_point": reever.knowledge_point.knowledge_point,
+                "pk": reever.id}
         infos_choice.append({count: info})
     return infos_choice
 
 
 def judge_json(judge):
-    infos_judge = {}
+    infos_judge = []
     count = -1
     for reever in judge:
         count = count + 1
         info = {"content": reever.content,
                 "solution": reever.solution, "score": reever.score, "creator": reever.creator.name,
-                "subject": reever.subject, "chapter": reever.chapter.chapter, "knowledge_point": reever.knowledge_point.knowledge_point,
-                "add_time": reever.add_time, "last_modify_time": reever.latest_modify_time, "pk": reever.pk}
-        infos_judge[count + ""] = info
+                # "subject": reever.subject.name,
+                "chapter": reever.chapter.chapter, "knowledge_point": reever.knowledge_point.knowledge_point,
+                "pk": reever.id}
+        infos_judge.append({count: info})
     return infos_judge
 
 
@@ -705,13 +755,21 @@ def problem_mod(request: HttpRequest, pk):
 
 
 def problem_del(request: HttpRequest, pk):
-    try:
-        flag = "1"
+    type = request.POST.get("type")
+    print(type)
+    if type == "1":
         get = get_object_or_404(ChoiceQuestion, pk=pk)
-    except BaseException:
-        flag = "0"
+    else:
         get = get_object_or_404(TrueOrFalseQuestion, pk=pk)
+
     get.delete()
+    # try:
+    #     flag = "1"
+    #     get = get_object_or_404(ChoiceQuestion, pk=pk)
+    # except BaseException:
+    #     flag = "0"
+    #     get = get_object_or_404(TrueOrFalseQuestion, pk=pk)
+    # get.delete()
     #choice = ChoiceQuestion.objects.filter(creator=login_teacher)
     #infos_choice = choice_json(choice)
     #judge = TrueOrFalseQuestion.objects.filter(creator=login_teacher)

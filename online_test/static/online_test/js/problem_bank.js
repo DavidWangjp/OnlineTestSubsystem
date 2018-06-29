@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     $('#btn-search-problem').click(function () {
         const post_data = {};
-        post_data["type"] = 1;
+        post_data["type"] = 2;
         post_data["creator"] = $("#creator").val();
         post_data["subject"] = $("#subject").val();
         post_data["chapter"] = $("#chapter").val();
@@ -19,37 +19,39 @@ $(document).ready(function () {
             async: false,
             success: function (data) {
                 let problems = data["infos"];
-                console.log(problems[0][0]["content"]);
-                console.log(problems)
+                console.log(problems);
+
+                let choice_problem = problems['choice'];
 
                 $("#choice-problem-table-body").empty("");
-                for (let index in problems[0]) {
-                    console.log(problems[0][index]["content"]);
+                for (let index in choice_problem) {
                     let table = $('#choice-problem-table-body');
 
                     let new_tr = $("<tr>" +
-                        "<td class='hidden'>"  + "he" + "</td>" +
-                        "<td>" + problems[0][index]["content"].slice(0, 10) +"..."+ "</td>" +
-                        "<td>" + problems[0][index]["subject"] + "</td>" +
-                        "<td>" + problems[0][index]["chapter"] + "</td>" +
-                        "<td>" + problems[0][index]["knowledge_point"] + "</td>" +
+                        "<td class='hidden'>"  +choice_problem[index][index]["pk"] + "</td>" +
+                        "<td>" + choice_problem[index][index]["content"].slice(0, 10) +"..."+ "</td>" +
+                        "<td>" + choice_problem[index][index]["subject"] + "</td>" +
+                        "<td>" + choice_problem[index][index]["chapter"] + "</td>" +
+                        "<td>" + choice_problem[index][index]["knowledge_point"] + "</td>" +
                         "<td>" + "2018-01-12" + "</td>" +
                         "<td><button class='btn btn-primary btn-problem-detail' style='height:80%'>详细 </button></td>" +
                         "</tr>");
                     new_tr.appendTo(table);
                 }
 
+                let judge_problems = problems['judge'];
+
                 $("#judge-problem-table-body").empty("");
-                for (let index in problems[0]) {
-                    console.log(problems[0][index]["content"]);
+                for (let index in judge_problems) {
+                    console.log(judge_problems[index][index]["content"]);
                     let table = $('#judge-problem-table-body');
 
                     let new_tr = $("<tr>" +
-                        "<td class='hidden'>"  + "he" + "</td>" +
-                        "<td>" + problems[0][index]["content"].slice(0, 10) +"..."+ "</td>" +
-                        "<td>" + problems[0][index]["subject"] + "</td>" +
-                        "<td>" + problems[0][index]["chapter"] + "</td>" +
-                        "<td>" + problems[0][index]["knowledge_point"] + "</td>" +
+                        "<td class='hidden'>"  + judge_problems[index][index]["pk"] + "</td>" +
+                        "<td>" + judge_problems[index][index]["content"].slice(0, 10) +"..."+ "</td>" +
+                        "<td>" + judge_problems[index][index]["subject"] + "</td>" +
+                        "<td>" + judge_problems[index][index]["chapter"] + "</td>" +
+                        "<td>" + judge_problems[index][index]["knowledge_point"] + "</td>" +
                         "<td>" + "2018-01-12" + "</td>" +
                         "<td><button class='btn btn-primary btn-problem-detail' style='height:80%'>详细 </button></td>" +
                         "</tr>");
@@ -62,33 +64,31 @@ $(document).ready(function () {
             }
         });
     });
+
     $('#btn-single-problem-nav').click(function () {
        window.open(data_save.problem_detail_url);
     });
+
     $(document).on('click', '.btn-problem-detail', function () {
         let pk = $(this).parent().parent().children("td:nth-child(1)").text();
-        console.log(pk);
-        $.ajax({
-            url: data_save.problem_choice_detail_url+'?pk='+pk,
-            type: 'GET',
-            async: false,
-            success: function (data) {
-               // console.log(data);
-            },
-            error: function (msg) {
-                console.log('error');
-                console.log(msg);
-            }
-
-        });
-        var new_window;
         if ($('#choice_problem').is('.active')) {
-             new_window = window.open(data_save.problem_choice_detail_url+'?pk='+pk);
-             $(new_window.document).find('#content').val('hello-world')
-             console.log($(new_window.document).html());
+            console.log(1)
+            let url = data_save.problem_choice_detail_url;
+            let index = url.lastIndexOf("\/");
+            url = url.substr(0, index-1);
+            url += pk+"/";
+            console.log(url);
+
+            window.open(url);
         } else {
-            new_window = window.open(data_save.problem_judge_detail_url+'?pk='+pk);
-            $(new_window.document).find("#content").attr('value', '1121');
+            console.log(2);
+            let url = data_save.problem_judge_detail_url;
+            let index = url.lastIndexOf("\/");
+            url = url.substr(0, index-1);
+            url += pk+"/";
+            console.log(url);
+
+            window.open(url);
         }
     });
 
@@ -132,9 +132,17 @@ $(document).ready(function () {
     $('#btn-update-problem').click(function () {
         const post_data = {};
 
-        let type = $('#choice_problem').is('.active')?1:0;
         post_data["type"] = type;
         post_data["content"] = $('#content').val();
+        let url = window.location.href;
+        url = url.substr(0, url.length-1);
+
+        let index = url.lastIndexOf("\/");
+        let pk = url.substr(index+1, url.length-index);
+
+        url = "/online_test/problem_bank/"+pk+"/mod/";
+        console.log(url);
+
         if (type == 1) {
             post_data["choice_a"] = $("#choice_a").val();
             post_data["choice_b"] = $("#choice_b").val();
@@ -147,9 +155,8 @@ $(document).ready(function () {
         post_data["chapter"] = $("#chapter").val();
         post_data["knowledge_point"] = $("#knowledge_point").val();
 
-
         $.ajax({
-            url: data_save.problem_mod_url,
+            url: url,
             type: 'post',
             dataType: 'json',
             data: post_data,
@@ -166,26 +173,20 @@ $(document).ready(function () {
         });
     });
     $('#btn-delete-problem').click(function () {
+        let url = window.location.href;
+        url = url.substr(0, url.length-1);
+
+        let index = url.lastIndexOf("\/");
+        let pk = url.substr(index+1, url.length-index);
+        url = "/online_test/problem_bank/"+pk+"/del/";
+        console.log(data_save.problem_delete_url);
+        console.log(url);
+
         const post_data = {};
-
-        let type = $('#choice_problem').is('.active')?1:0;
         post_data["type"] = type;
-        post_data["content"] = $('#content').val();
-        if (type == 1) {
-            post_data["choice_a"] = $("#choice_a").val();
-            post_data["choice_b"] = $("#choice_b").val();
-            post_data["choice_c"] = $("#choice_c").val();
-            post_data["choice_d"] = $("#choice_d").val();
-        }
-        post_data["solution"] = $("#solution").val();
-        post_data["score"] = $("#score").val();
-        post_data["subject"] = $("#subject").val();
-        post_data["chapter"] = $("#chapter").val();
-        post_data["knowledge_point"] = $("#knowledge_point").val();
-
 
         $.ajax({
-            url: data_save.problem_delete_url,
+            url: url,
             type: 'post',
             dataType: 'json',
             data: post_data,

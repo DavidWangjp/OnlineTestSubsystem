@@ -15,10 +15,11 @@
     const data = {
         "problem_search_url": "{% url 'online_test:problem_search' %}",
         "problem_detail_url": "{% url 'online_test:problem_single' %}",
-        {#"test_problem_add_url": "{% url 'online_test:test_add' %}",#}
-        {#"test_problem_delete_url": "{% url 'online_test:test_del' pk %}",#}
-        {#"static_choice_detail_url": "{% url 'online_test:problem_static_choice' %}",#}
-        {#"static_judge_detail_url": "{% url 'online_test:problem_static_judge' %}",#}
+        "test_problem_add_url": "{% url 'online_test:test_add' %}",
+        "test_problem_delete_url": "{% url 'online_test:test_del' 1 %}",
+        "static_choice_detail_url": "{% url 'online_test:static_choice' 1 %}",
+        "static_judge_detail_url": "{% url 'online_test:static_judge'  1 %}",
+        "test_add_url": "{% url 'online_test:test_add'  %}",
         "test": cur_test,
     }
 </script>
@@ -181,24 +182,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody id="problem-table-body">
-                                                                    <tr>
-                                                                        <td>判断1</td>
-                                                                        <td>数学</td>
-                                                                        <td>ch2</td>
-                                                                        <td>函数</td>
-                                                                        <td>2018-01-12</td>
-                                                                        <td>
-                                                                            <button class="btn btn-primary btn-judge-problem-detail">
-                                                                                详细
-                                                                            </button>
-                                                                        </td>
-                                                                        <td>
-                                                                            <button class="btn btn-primary btn-insert-test-problem"
-                                                                                    id="btn-insert-test-problem">
-                                                                                添加到当前试卷
-                                                                            </button>
-                                                                        </td>
-                                                                    </tr>
                                                                     </tbody>
                                                                 </table>
                                                             </div>
@@ -323,11 +306,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                     <thead>
                                                     <tr>
                                                         <th class="hidden"></th>
-                                                        <th width="100">题号</th>
                                                         <th width="100">题型</th>
-                                                        <th width="100">出题人</th>
-                                                        <th width="150">时间</th>
-                                                        <th width="100">分值</th>
+                                                        <th width="100">科目</th>
+                                                        <th width="100">章节</th>
+                                                        <th width="150">知识点</th>
+                                                        <th width="100">时间</th>
                                                         <td width="100"></td>
                                                         <td></td>
                                                     </tr>

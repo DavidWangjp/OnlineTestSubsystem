@@ -2,11 +2,11 @@
 {% load extratags %}
 <!DOCTYPE HTML>
 <script>
-
+    {#const type = 1;#}
     const data = {
         "problem_add_url": "{% url 'online_test:problem_add' %}",
-        {#"problem_mod_url": "{% url 'online_test:problem_mod' %}",#}
-        {#"problem_delete_url": "{% url 'online_test:problem_del' %}",#}
+        "problem_mod_url": "{% url 'online_test:problem_mod' 1 %} ",
+        "problem_delete_url": "{% url 'online_test:problem_del'  1%}",
     };
 </script>
 <head>
@@ -40,18 +40,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="{% static 'online_test/js/light.js' %}"></script>
     <!-- //lined-icons -->
     <script src="{% static 'online_test/js/jquery-1.10.2.min.js' %}"></script>
-
-    <script>
-        var x = 'C';//这个是上次选中的值,你应该放到request中返回的时候可以取到
-        var sel = $("#solution");
-        for (var i = 0; i < sel.options.length; i++) {
-            if (sel.options[i].value == x) {
-                sel.options[i].selected = true;
-                break;
-            }
-        }
-
-    </script>
     <script>
         $.ajaxSetup({
             headers: {"X-CSRFToken": '{{csrf_token}}'}
@@ -99,7 +87,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="content">
             <div class="women_main">
                 <font size="6" color="black">题目管理</font>
-                <div class="content">
+                <div class="content choice-content">
                     <div id="tabs_content" class="tab-content">
                         <div class="tab-pane fade in active" id="choice_problem">
                             <div class="row">
@@ -159,7 +147,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                             <div class="input-group">
                                                                 <span>修改日期</span>
                                                                 <div></div>
-                                                                <span id="latest-update-time">{{ problem.latest_update_time }}</span>
+                                                                <span id="latest-update-time">{{ latest_modify_time }}</span>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -347,7 +335,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </div>
 </div>
 
+<script>
+        var x = 'C';//这个是上次选中的值,你应该放到request中返回的时候可以取到
+        var sel = $("#solution");
+        for (var i = 0; i < sel.options.length; i++) {
+            if (sel.options[i].value == x) {
+                sel.options[i].selected = true;
+                break;
+            }
+        }
 
+    </script>
 <!--js -->
 <script src="{% static 'online_test/js/jquery.nicescroll.js' %}"></script>
 <script src="{% static 'online_test/js/scripts.js' %}"></script>
@@ -358,7 +356,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
 <script src="{% static 'online_test/js/menu_jquery.js' %}"></script>
-</body>
 <script src="{% static 'online_test/js/problem_bank.js' %}"></script>
+</body>
 
 </html>
