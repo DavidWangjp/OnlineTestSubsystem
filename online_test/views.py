@@ -401,9 +401,8 @@ def test_add(request: HttpRequest):
     if request.method == "POST":
         select = []
         judge = []
-        subject = Subject(
-            name=request.POST.get("subject"),
-        )
+        subject = Subject.objects.filter(name = request.POST.get("subject"))[0]
+
         #查出改科目对应的考试时间
         test = Test(
             name=request.POST.get("name"),
@@ -429,9 +428,7 @@ def test_mod(request: HttpRequest, pk):
     if request.method == "POST":
         select = []
         judge = []
-        subject = Subject(
-            name=request.POST.get("subject"),
-        )
+        subject = Subject.objects.filter(name = request.POST.get("subject"))[0]
 
         #查出改科目对应的考试时间
         get.name=request.POST.get("name")
@@ -456,6 +453,31 @@ def test_del(request: HttpRequest, pk):
     get.delete()
     return HttpResponse(json.dumps({'success': True, 'result': 'ok'}), content_type="application/json")
 
+def test_gerner(request: HttpRequest):
+    if request.method == "POST":
+        select = []
+        judge = []
+        subject = Subject.objects.filter(name=request.POST.get("subject"))[0]
+        select = ChoiceQuestion.objects.filter(subject=subject)
+        judge = TrueOrFalseQuestion.objects.filter(subject=subject)
+        #查出改科目对应的考试时间
+        test = Test(
+            name=request.POST.get("name"),
+            subject=subject,
+            creator=login_teacher,
+            attend_students=[]
+        )
+       # info = request.POST.get("questions")
+       # info_data = json.loads(info)
+       # for key in info_data:
+       #     if info_data[key]["type"] == 1:
+       #         select += choice_re(info_data[key])
+       #     else:
+       #         judge += judge_re(info_data[key])
+        test.choice_questions = select
+        test.true_or_false_questions = judge
+        test.save()
+    return HttpResponse(json.dumps({'success': True, 'result': 'ok'}), content_type="application/json")
 
 def test_json(test):
     infos_choice = {}
@@ -513,6 +535,15 @@ def problem_search(request: HttpRequest):
                                                    # chapter=request.POST.get("chapter"), knowledge_point=request.POST.get("knowledge_point"))
             infos = judge_json(result)
             print(result.count())
+        else:
+            result = ChoiceQuestion.objects.all()  # filter(creator=request.POST.get("creator"), subject=request.POST.get("subject"),
+            #      chapter=request.POST.get("chapter"), knowledge_point=request.POST.get("knowledge_point"))
+            choice_j = choice_json(result)
+            result = TrueOrFalseQuestion.objects.all()
+            # filter(creator=request.POST.get("creator"), subject=request.POST.get("subject"),
+            # chapter=request.POST.get("chapter"), knowledge_point=request.POST.get("knowledge_point"))
+            select_j = judge_json(result)
+            infos = {'choice': choice_j, 'judge': select_j}
         return HttpResponse(json.dumps({'infos': infos}), content_type="application/json")
 
 

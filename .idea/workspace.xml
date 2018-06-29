@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a1f85f77-22f6-4316-b321-4f9364550e99" name="Default" comment="" />
+    <list default="true" id="a1f85f77-22f6-4316-b321-4f9364550e99" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/online_test/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/online_test/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/online_test/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/online_test/views.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,8 +39,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/online_test/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="545" column="21" selection-start-line="545" selection-start-column="21" selection-end-line="545" selection-end-column="21" />
+            <state relative-caret-position="55">
+              <caret line="455" column="15" selection-start-line="455" selection-start-column="9" selection-end-line="455" selection-end-column="15" />
               <folding>
                 <element signature="e#12796#14844#0" />
                 <element signature="e#14872#15378#0" />
@@ -47,6 +52,7 @@
                 <element signature="e#18178#18531#0" />
                 <element signature="e#18580#19413#0" />
                 <element signature="e#19462#20548#0" />
+                <element signature="e#20721#23005#0" />
                 <element signature="e#22634#23252#0" />
                 <element signature="e#23282#23815#0" />
                 <element signature="e#23865#25870#0" />
@@ -56,11 +62,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/online_test/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="21" column="48" selection-start-line="21" selection-start-column="48" selection-end-line="21" selection-end-column="48" />
+            <state relative-caret-position="172">
+              <caret line="38" column="87" lean-forward="true" selection-start-line="38" selection-start-column="87" selection-end-line="38" selection-end-column="87" />
             </state>
           </provider>
         </entry>
@@ -74,11 +80,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/online_test/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9">
-              <caret line="88" column="36" lean-forward="true" selection-start-line="88" selection-start-column="36" selection-end-line="88" selection-end-column="36" />
+            <state relative-caret-position="210">
+              <caret line="98" column="43" lean-forward="true" selection-start-line="98" selection-start-column="43" selection-end-line="98" selection-end-column="43" />
               <folding>
                 <element signature="e#1752#2590#0" />
               </folding>
@@ -115,8 +121,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/online_test/static/online_test/js/problem_bank.js" />
-        <option value="$PROJECT_DIR$/online_test/urls.py" />
         <option value="$PROJECT_DIR$/online_test/views.py" />
+        <option value="$PROJECT_DIR$/online_test/urls.py" />
       </list>
     </option>
   </component>
@@ -130,8 +136,8 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="347" />
-    <option name="y" value="2" />
+    <option name="x" value="249" />
+    <option name="y" value="15" />
     <option name="width" value="1110" />
     <option name="height" value="666" />
   </component>
@@ -277,7 +283,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="347" y="2" width="1110" height="666" extended-state="0" />
+    <frame x="249" y="15" width="1110" height="666" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -330,6 +336,7 @@
             <element signature="e#18178#18531#0" />
             <element signature="e#18580#19413#0" />
             <element signature="e#19462#20548#0" />
+            <element signature="e#20721#23005#0" />
             <element signature="e#22634#23252#0" />
             <element signature="e#23282#23815#0" />
             <element signature="e#23865#25870#0" />
@@ -370,6 +377,7 @@
             <element signature="e#18178#18531#0" />
             <element signature="e#18580#19413#0" />
             <element signature="e#19462#20548#0" />
+            <element signature="e#20721#23005#0" />
             <element signature="e#22634#23252#0" />
             <element signature="e#23282#23815#0" />
             <element signature="e#23865#25870#0" />
@@ -410,6 +418,7 @@
             <element signature="e#18178#18531#0" />
             <element signature="e#18580#19413#0" />
             <element signature="e#19462#20548#0" />
+            <element signature="e#20721#23005#0" />
             <element signature="e#22634#23252#0" />
             <element signature="e#23282#23815#0" />
             <element signature="e#23865#25870#0" />
@@ -447,6 +456,7 @@
             <element signature="e#18178#18531#0" />
             <element signature="e#18580#19413#0" />
             <element signature="e#19462#20548#0" />
+            <element signature="e#20721#23005#0" />
             <element signature="e#22634#23252#0" />
             <element signature="e#23282#23815#0" />
             <element signature="e#23865#25870#0" />
@@ -513,6 +523,7 @@
             <element signature="e#18178#18531#0" />
             <element signature="e#18580#19413#0" />
             <element signature="e#19462#20548#0" />
+            <element signature="e#20721#23005#0" />
             <element signature="e#22634#23252#0" />
             <element signature="e#23282#23815#0" />
             <element signature="e#23865#25870#0" />
@@ -543,6 +554,7 @@
             <element signature="e#18178#18531#0" />
             <element signature="e#18580#19413#0" />
             <element signature="e#19462#20548#0" />
+            <element signature="e#20721#23005#0" />
             <element signature="e#22634#23252#0" />
             <element signature="e#23282#23815#0" />
             <element signature="e#23865#25870#0" />
@@ -583,6 +595,7 @@
             <element signature="e#18178#18531#0" />
             <element signature="e#18580#19413#0" />
             <element signature="e#19462#20548#0" />
+            <element signature="e#20721#23005#0" />
             <element signature="e#22634#23252#0" />
             <element signature="e#23282#23815#0" />
             <element signature="e#23865#25870#0" />
@@ -623,6 +636,7 @@
             <element signature="e#18178#18531#0" />
             <element signature="e#18580#19413#0" />
             <element signature="e#19462#20548#0" />
+            <element signature="e#20721#23005#0" />
             <element signature="e#22634#23252#0" />
             <element signature="e#23282#23815#0" />
             <element signature="e#23865#25870#0" />
@@ -663,6 +677,7 @@
             <element signature="e#18178#18531#0" />
             <element signature="e#18580#19413#0" />
             <element signature="e#19462#20548#0" />
+            <element signature="e#20721#23005#0" />
             <element signature="e#22634#23252#0" />
             <element signature="e#23282#23815#0" />
             <element signature="e#23865#25870#0" />
@@ -700,6 +715,7 @@
             <element signature="e#18178#18531#0" />
             <element signature="e#18580#19413#0" />
             <element signature="e#19462#20548#0" />
+            <element signature="e#20721#23005#0" />
             <element signature="e#22634#23252#0" />
             <element signature="e#23282#23815#0" />
             <element signature="e#23865#25870#0" />
@@ -741,13 +757,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/online_test/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="21" column="48" selection-start-line="21" selection-start-column="48" selection-end-line="21" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/online_test/templates/online_test/test_detail.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="741">
@@ -762,10 +771,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/online_test/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="98" column="43" lean-forward="true" selection-start-line="98" selection-start-column="43" selection-end-line="98" selection-end-column="43" />
+          <folding>
+            <element signature="e#1752#2590#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/online_test/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="545" column="21" selection-start-line="545" selection-start-column="21" selection-end-line="545" selection-end-column="21" />
+        <state relative-caret-position="55">
+          <caret line="455" column="15" selection-start-line="455" selection-start-column="9" selection-end-line="455" selection-end-column="15" />
           <folding>
             <element signature="e#12796#14844#0" />
             <element signature="e#14872#15378#0" />
@@ -777,6 +796,7 @@
             <element signature="e#18178#18531#0" />
             <element signature="e#18580#19413#0" />
             <element signature="e#19462#20548#0" />
+            <element signature="e#20721#23005#0" />
             <element signature="e#22634#23252#0" />
             <element signature="e#23282#23815#0" />
             <element signature="e#23865#25870#0" />
@@ -785,13 +805,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/online_test/models.py">
+    <entry file="file://$PROJECT_DIR$/online_test/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9">
-          <caret line="88" column="36" lean-forward="true" selection-start-line="88" selection-start-column="36" selection-end-line="88" selection-end-column="36" />
-          <folding>
-            <element signature="e#1752#2590#0" />
-          </folding>
+        <state relative-caret-position="172">
+          <caret line="38" column="87" lean-forward="true" selection-start-line="38" selection-start-column="87" selection-end-line="38" selection-end-column="87" />
         </state>
       </provider>
     </entry>

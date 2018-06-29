@@ -36,6 +36,7 @@ urlpatterns = [
     url('teacher/test/auto-generation/(?P<pk>[0-9]+)/del/', views.test_del, name="test_del"),
     url('teacher/test/auto-generation/(?P<pk>[0-9]+)/mod/', views.test_mod, name="test_mod"),
     url('teacher/test/auto-generation/add/', views.test_add, name="test_add"),
+    url('teacher/test/auto-generation/gerner/', views.test_gerner, name="test_gerner"),
     url('teacher/test/auto-generation/search/', views.test_search, name="test_search"),
     url('teacher/test/auto-generation', views.AutoTestGeneration.as_view(), name='auto_test_generation'),
     # url('chapter_statistics/(?P<pk>[0-9]+)', views.TeacherStatisticsChapters.as_view(), name='teacher_statistics_chapters')
