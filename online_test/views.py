@@ -583,12 +583,12 @@ class ProblemDetail(generic.DetailView):
         true_or_false_question_records = []
         if self.kwargs['pk'] == "1":
             pk = ChoiceQuestion.objects.get(id=self.kwargs['pk'])
-            select = ChoiceQuestionAnswerRecord.objects.filter(pk=pk)[0]
-            context['choice_question_answer_record'] = select
+            select = ChoiceQuestion.objects.filter(pk=pk)[0]
+            context['choice_question'] = select
         else:
-            pk = TrueOrFalseQuestionAnswerRecord.objects.get(id=self.kwargs['pk'])
-            judge = TrueOrFalseQuestionAnswerRecord.objects.filter(pk=pk)[0]
-            context['true_or_false_question_answer_record'] = judge
+            pk = TrueOrFalseQuestion.objects.get(id=self.kwargs['pk'])
+            judge = TrueOrFalseQuestion.objects.filter(pk=pk)[0]
+            context['true_or_false_question'] = judge
 
         return context
 
@@ -685,6 +685,7 @@ def choice_json(choice):
                 "solution": reever.solution, "score": reever.score, "creator": reever.creator.name,
                 # "subject": reever.subject.name,
                 "chapter": reever.chapter.chapter, "knowledge_point": reever.knowledge_point.knowledge_point,
+
                 "pk": reever.id}
         infos_choice.append({count: info})
     return infos_choice
@@ -701,6 +702,7 @@ def judge_json(judge):
                 "chapter": reever.chapter.chapter, "knowledge_point": reever.knowledge_point.knowledge_point,
                 "pk": reever.id}
         infos_judge.append({count: info})
+
     return infos_judge
 
 
