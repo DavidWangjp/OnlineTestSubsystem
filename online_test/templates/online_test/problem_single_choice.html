@@ -42,11 +42,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="{% static 'online_test/js/jquery-1.10.2.min.js' %}"></script>
 
     <script>
+        var x = 'C';//这个是上次选中的值,你应该放到request中返回的时候可以取到
+        var sel = $("#solution");
+        for (var i = 0; i < sel.options.length; i++) {
+            if (sel.options[i].value == x) {
+                sel.options[i].selected = true;
+                break;
+            }
+        }
+
+    </script>
+    <script>
         $.ajaxSetup({
             headers: {"X-CSRFToken": '{{csrf_token}}'}
         });
     </script>
-    <script src="{% static 'online_test/js/problem_bank.js' %}"></script>
 
     <script>
         $(function () {
@@ -91,148 +101,145 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <font size="6" color="black">题目管理</font>
                 <div class="content">
                     <div id="tabs_content" class="tab-content">
-                         <div class="tab-pane fade in active" id="choice_problem">
+                        <div class="tab-pane fade in active" id="choice_problem">
                             <div class="row">
-                            <div>
-                                <div class="panel panel-default" style="margin-bottom: 10px">
-                                    <div>
-                                        <span>题目信息</span>
-                                        <br>
-                                        <div class="container proinfo-box">
-                                            <table>
-                                                <thead>
-                                                <tr>
-                                                    <th width="200px"></th>
-                                                    <th width="150px"></th>
-                                                    <th width="200px"></th>
-                                                </tr>
-                                                </thead>
-                                                <tr>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <span>科目</span>
-                                                            <input type="text" id="subject">
-                                                        </div>
-                                                    </td>
-                                                    <td></td>
-                                                    <td>
-                                                        <div class="input-group">
+                                <div>
+                                    <div class="panel panel-default" style="margin-bottom: 10px">
+                                        <div>
+                                            <span>题目信息</span>
+                                            <br>
+                                            <div class="container proinfo-box">
+                                                <table>
+                                                    <thead>
+                                                    <tr>
+                                                        <th width="200px"></th>
+                                                        <th width="150px"></th>
+                                                        <th width="200px"></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span>科目</span>
+                                                                <input type="text" id="subject"
+                                                                       value="{{ problem.subject }}">
+                                                            </div>
+                                                        </td>
+                                                        <td></td>
+                                                        <td>
+                                                            <div class="input-group">
                                                     <span>
                                                       章节
                                                     </span>
-                                                            <input type="text" id="chapter">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <span>知识点</span>
-                                                            <input type="text" id="knowledge_point">
-                                                        </div>
-                                                    </td>
-                                                    <td></td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                    <span>
-                                                      出题人
-                                                    </span>
-                                                            <input type="text">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <span>录入日期</span>
-                                                            <div></div>
-                                                            <span id="add-time">2018-6-20</span>
-                                                        </div>
-                                                    </td>
-                                                    <td></td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <span>修改日期</span>
-                                                            <div></div>
-                                                            <span id="latest-update-time">2018-6-20</span>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div>
-                                                            <span>分值</span>
-                                                            <div></div>
-                                                            <input id="score" type="text">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                            <br>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                                <div>
-                                    <div class="form-group">
-                                        <label for="name">题干内容</label>
-                                        <textarea class="form-control" rows="3" id="content">fuck</textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="name">选项内容</label>
-                                        <div class="container">
-                                            <div>
-                                                <label for="name">选项A</label>
-                                                <textarea class="form-control" rows="1" id="choice_a"
-                                                          style="width: 60%"></textarea>
-                                            </div>
-                                            <div>
-                                                <label for="name">选项B</label>
-                                                <textarea class="form-control" rows="1" id="choice_b"
-                                                          style="width: 60%"></textarea>
-                                            </div>
-                                            <div>
-                                                <label for="name">选项C</label>
-                                                <textarea class="form-control" rows="1" id="choice_b"
-                                                          style="width: 60%"></textarea>
-                                            </div>
-                                            <div>
-                                                <label for="name">选项D</label>
-                                                <textarea class="form-control" rows="1" id="choice_d"
-                                                          style="width: 60%"></textarea>
-                                            </div>
-                                            <div>
-                                                <label for="name">选项E</label>
-                                                <textarea class="form-control" rows="1" id="choice_e"
-                                                          style="width: 60%"></textarea>
-                                            </div>
-                                            <div>
-                                                <label for="name">选项F</label>
-                                                <textarea class="form-control" rows="1" id="choice_e"
-                                                          style="width: 60%"></textarea>
+                                                                <input type="text" id="chapter"
+                                                                       value="{{ problem.chapter }}">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span>知识点</span>
+                                                                <input type="text" id="knowledge_point"
+                                                                       value="{{ problem.knowledge_point }}">
+                                                            </div>
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span>录入日期</span>
+                                                                <div></div>
+                                                                <span id="add-time">{{ problem.add_time }}</span>
+                                                            </div>
+                                                        </td>
+                                                        <td></td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span>修改日期</span>
+                                                                <div></div>
+                                                                <span id="latest-update-time">{{ problem.latest_update_time }}</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div>
+                                                                <span>分值</span>
+                                                                <div></div>
+                                                                <input id="score" type="text"
+                                                                       value="{{ problem.score }}">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <br>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <form role="form">
+                                    <br>
+                                    <div>
                                         <div class="form-group">
-                                            <label for="name">题目答案</label>
-                                            <select style="width: 100px;" id="solution">
-                                                <option value="A">A</option>
-                                                <option value="B">B</option>
-                                                <option value="C">C</option>
-                                                <option value="D">D</option>
-                                                <option value="E">E</option>
-                                                <option value="F">F</option>
-                                            </select>
+                                            <label for="name">题干内容</label>
+                                            <textarea class="form-control" rows="3"
+                                                      id="content">{{ problem.content }}</textarea>
                                         </div>
-                                    </form>
+                                        <div class="form-group">
+                                            <label for="name">选项内容</label>
+                                            <div class="container">
+                                                <div>
+                                                    <label for="name">选项A</label>
+                                                    <textarea class="form-control" rows="1" id="choice_a"
+                                                              style="width: 60%">{{ problem.choice_a }}</textarea>
+                                                </div>
+                                                <div>
+                                                    <label for="name">选项B</label>
+                                                    <textarea class="form-control" rows="1" id="choice_b"
+                                                              style="width: 60%">{{ problem.choice_b }}</textarea>
+                                                </div>
+                                                <div>
+                                                    <label for="name">选项C</label>
+                                                    <textarea class="form-control" rows="1" id="choice_b"
+                                                              style="width: 60%">{{ problem.choice_c }}</textarea>
+                                                </div>
+                                                <div>
+                                                    <label for="name">选项D</label>
+                                                    <textarea class="form-control" rows="1" id="choice_d"
+                                                              style="width: 60%">{{ problem.choice_d }}</textarea>
+                                                </div>
+                                                <div>
+                                                    <label for="name">选项E</label>
+                                                    <textarea class="form-control" rows="1" id="choice_e"
+                                                              style="width: 60%"></textarea>
+                                                </div>
+                                                <div>
+                                                    <label for="name">选项F</label>
+                                                    <textarea class="form-control" rows="1" id="choice_e"
+                                                              style="width: 60%">{{ problem.choice_e }}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <form role="form">
+                                            <div class="form-group">
+                                                <label for="name">题目答案</label>
+                                                <select style="width: 100px;" id="solution">
+                                                    <option value="A">A</option>
+                                                    <option value="B">B</option>
+                                                    <option value="C">C</option>
+                                                    <option value="D">D</option>
+                                                    <option value="E">E</option>
+                                                    <option value="F">F</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="clearfix"></div>
                         </div>
-                         </div>
                     </div>
                     <div style="text-align: center;">
                         <a class="btn btn-primary" id="btn-update-problem" role="button"
@@ -352,5 +359,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 <script src="{% static 'online_test/js/menu_jquery.js' %}"></script>
 </body>
+<script src="{% static 'online_test/js/problem_bank.js' %}"></script>
 
 </html>
