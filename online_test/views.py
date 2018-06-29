@@ -502,19 +502,40 @@ def test_search(request: HttpRequest):
         return HttpResponse(json.dumps({'infos': infos}), content_type="application/json")
 
 
-def problem_detail(request: HttpRequest):
-    if request.method == "POST":
-        infos = {}
-        if request.POST.get("type") == 1:
-            result = ChoiceQuestion.objects.filter(creator=request.POST.get("creator"), subject=request.POST.get("subject"),
-                                                   chapter=request.POST.get("chapter"), knowledge_point=request.POST.get("knowledge_point"))
-            infos = choice_json(result)
-        elif request.POST.get("type") == 0:
-            result = TrueOrFalseQuestion.objects.filter(creator=request.POST.get("creator"), subject=request.POST.get("subject"),
-                                                   chapter=request.POST.get("chapter"), knowledge_point=request.POST.get("knowledge_point"))
-            infos = judge_json(result)
-        return render(request, 'online_test/problem_single.html', {'infos': infos})
+#def problem_detail(request: HttpRequest):
+#    if request.method == "POST":
+#        infos = {}
+#        if request.POST.get("type") == "1":
+#            result = ChoiceQuestion.objects.all() #filter(creator=request.POST.get("creator"), subject=request.POST.get("subject"),
+#                                                  # chapter=request.POST.get("chapter"), knowledge_point=request.POST.get("knowledge_point"))
+#            infos = choice_json(result)
+#        elif request.POST.get("type") == "0":
+#            result = TrueOrFalseQuestion.objects.all() #filter(creator=request.POST.get("creator"), subject=request.POST.get("subject"),
+#                                                       #chapter=request.POST.get("chapter"), knowledge_point=request.POST.get("knowledge_point"))
+#            infos = judge_json(result)
+#        return render(request, 'online_test/problem_single.html', {'infos': infos})
 
+class ProblemDetail(generic.DetailView):
+    template_name = 'online_test/problem_single.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        T_score = 0
+        T_total_score = 0
+        C_score = 0
+        C_total_score = 0
+        choice_question_records = []
+        true_or_false_question_records = []
+        if self.kwargs['pk'] == "1":
+            pk = ChoiceQuestion.objects.get(id=self.kwargs['pk'])
+            select = ChoiceQuestionAnswerRecord.objects.filter(pk=pk)[0]
+            context['choice_question_answer_record'] = select
+        else:
+            pk = TrueOrFalseQuestionAnswerRecord.objects.get(id=self.kwargs['pk'])
+            judge = TrueOrFalseQuestionAnswerRecord.objects.filter(pk=pk)[0]
+            context['true_or_false_question_answer_record'] = judge
+
+        return context
 
 def problem_search(request: HttpRequest):
     if request.method == "POST":

@@ -30,7 +30,7 @@ urlpatterns = [
     url('problem_bank/add/', views.problem_add, name="problem_add"),
     url('problem_bank/(?P<pk>[0-9]+)/mod/', views.problem_mod, name="problem_mod"),
     url('problem_bank/(?P<pk>[0-9]+)/del/', views.problem_del, name="problem_del"),
-    url('problem_bank/detail/', views.problem_del, name="problem_detail"),
+    url('problem_bank/detail/', views.ProblemDetail.as_view(), name="problem_detail"),
     url('problem_bank/', views.ProblemBank.as_view(), name='problem_bank'),
 
     url('teacher/test/auto-generation/(?P<pk>[0-9]+)/del/', views.test_del, name="test_del"),
