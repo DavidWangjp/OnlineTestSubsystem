@@ -401,10 +401,13 @@ def test_add(request: HttpRequest):
     if request.method == "POST":
         select = []
         judge = []
+        subject = Subject(
+            name=request.POST.get("subject"),
+        )
         #查出改科目对应的考试时间
         test = Test(
             name=request.POST.get("name"),
-            subject=request.POST.get("subject"),
+            subject=subject,
             creator=login_teacher,
             attend_students=[]
         )
@@ -426,9 +429,13 @@ def test_mod(request: HttpRequest, pk):
     if request.method == "POST":
         select = []
         judge = []
+        subject = Subject(
+            name=request.POST.get("subject"),
+        )
+
         #查出改科目对应的考试时间
         get.name=request.POST.get("name")
-        get.subject=request.POST.get("subject")
+        get.subject=subject
         get.creator=login_teacher
         get.attend_students=[]
         info = request.POST.get("questions")
@@ -511,6 +518,17 @@ def problem_search(request: HttpRequest):
 
 def problem_add(request: HttpRequest):
     if request.method == "POST":
+        subject = Subject(
+            name=request.POST.get("subject"),
+        )
+        chapter = Chapter(
+            chapter=request.POST.get("chapter"),
+            subject=subject
+        )
+        knowledge_point = KnowledgePoint(
+            knowledge_point=request.POST.get("knowledge_point"),
+            subject=subject,
+        )
         if request.POST.get("type") == "1":
             result = ChoiceQuestion(
                 content=request.POST.get("content"),
@@ -521,9 +539,9 @@ def problem_add(request: HttpRequest):
                 solution=request.POST.get("solution"),
                 score=request.POST.get("score"),
                 creator=login_teacher,
-                subject=request.POST.get("subject"),
-                chapter=request.POST.get("chapter"),
-                knowledge_point=request.POST.get("knowledge_point"),
+                subject=subject,
+                chapter=chapter,
+                knowledge_point=knowledge_point,
                 add_time=timezone.now(),
                 latest_modify_time=timezone.now()
             )
@@ -535,9 +553,9 @@ def problem_add(request: HttpRequest):
                 solution=request.POST.get("solution"),
                 score=request.POST.get("score"),
                 creator=login_teacher,
-                subject=request.POST.get("subject"),
-                chapter=request.POST.get("chapter"),
-                knowledge_point=request.POST.get("knowledge_point"),
+                subject=subject,
+                chapter=chapter,
+                knowledge_point=knowledge_point,
                 add_time=timezone.now(),
                 latest_modify_time=timezone.now()
             )
