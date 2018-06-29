@@ -518,17 +518,10 @@ def problem_search(request: HttpRequest):
 
 def problem_add(request: HttpRequest):
     if request.method == "POST":
-        subject = Subject(
-            name=request.POST.get("subject"),
-        )
-        chapter = Chapter(
-            chapter=request.POST.get("chapter"),
-            subject=subject
-        )
-        knowledge_point = KnowledgePoint(
-            knowledge_point=request.POST.get("knowledge_point"),
-            subject=subject,
-        )
+        subject = Subject.objects.filter(name = request.POST.get("subject"))[0]
+        chapter = Chapter.objects.filter(chapter=request.POST.get("chapter"))[0]
+        knowledge_point = KnowledgePoint.objects.filter(knowledge_point = request.POST.get("knowledge_point"))[0]
+
         if request.POST.get("type") == "1":
             result = ChoiceQuestion(
                 content=request.POST.get("content"),
@@ -545,7 +538,7 @@ def problem_add(request: HttpRequest):
                 add_time=timezone.now(),
                 latest_modify_time=timezone.now()
             )
-            print(result)
+            #print(result)
             result.save()
         elif request.POST.get("type") == "0":
             result = TrueOrFalseQuestion(
@@ -559,7 +552,7 @@ def problem_add(request: HttpRequest):
                 add_time=timezone.now(),
                 latest_modify_time=timezone.now()
             )
-            print(result)
+           # print(result)
             result.save()
         #choice = ChoiceQuestion.objects.filter(creator=login_teacher)
         #infos_choice = choice_json(choice)
