@@ -68,6 +68,19 @@ $(document).ready(function () {
     $(document).on('click', '.btn-problem-detail', function () {
         let pk = $(this).parent().parent().children("td:nth-child(1)").text();
         console.log(pk);
+        $.ajax({
+            url: data_save.problem_choice_detail_url+'?pk='+pk,
+            type: 'GET',
+            async: false,
+            success: function (data) {
+               console.log(data);
+            },
+            error: function (msg) {
+                console.log('error');
+                console.log(msg);
+            }
+
+        });
         if ($('#choice_problem').is('.active')) {
              window.open(data_save.problem_choice_detail_url+'?pk='+pk);
         } else {
