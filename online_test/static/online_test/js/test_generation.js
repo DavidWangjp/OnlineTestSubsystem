@@ -157,6 +157,8 @@ $(document).ready(function () {
         post_data["choice_num"] = $("#auto-test-choice-num").val();
         post_data["judge_num"] = $("#auto-test-judge-num").val();
 
+        console.log(data_save.auto_test_add_url)
+
         $.ajax({
             url: data_save.auto_test_add_url,
             type: 'post',
@@ -171,7 +173,6 @@ $(document).ready(function () {
             error: function (msg) {
                 console.log("failure");
                 console.log(msg);
-                alert('创建成功');
             }
         });
     });
