@@ -541,9 +541,13 @@ def problem_add(request: HttpRequest):
             #print(result)
             result.save()
         elif request.POST.get("type") == "0":
+            if request.POST.get("solution") == 'true':
+                solution = True
+            else:
+                solution = False
             result = TrueOrFalseQuestion(
                 content=request.POST.get("content"),
-                solution=request.POST.get("solution"),
+                solution=solution,
                 score=request.POST.get("score"),
                 creator=login_teacher,
                 subject=subject,
