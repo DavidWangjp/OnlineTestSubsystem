@@ -483,7 +483,6 @@ def test_add(request: HttpRequest):
         for every in Student.objects.all():
             test.attend_students.add(every)
 
-
         for key, value in request.POST.items():
             if "question" in key and "pk" in key:
                 index=key[8:11]

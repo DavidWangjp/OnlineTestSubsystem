@@ -110,6 +110,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                         <td>
                                                             <div class="input-group">
                                                                 <span>科目</span>
+                                                                <div></div>
                                                                 <span id="subject">{{ problem.subject }}</span>
                                                             </div>
                                                         </td>
@@ -118,7 +119,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                             <div class="input-group">
                                                     <span>
                                                       章节
-                                                    </span><span id="subject">{{ problem.chapter }}</span>
+                                                    </span>
+                                                                <div></div><span id="subject">{{ problem.chapter }}</span>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -126,6 +128,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                         <td>
                                                             <div class="input-group">
                                                                 <span>知识点</span>
+                                                                <div></div>
                                                                 <span id="knowledge-point">{{ problem.knowledge_point }}</span>
                                                             </div>
                                                         </td>
@@ -144,7 +147,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                             <div class="input-group">
                                                                 <span>修改日期</span>
                                                                 <div></div>
-                                                                <span id="latest-update-time">{{ latest_modify_time }}</span>
+                                                                <span id="latest-update-time">{{ problem.latest_modify_time }}</span>
                                                             </div>
                                                         </td>
                                                     </tr>

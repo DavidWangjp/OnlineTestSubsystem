@@ -18,7 +18,8 @@
         "test_problem_add_url": "{% url 'online_test:test_add' %}",
         "test_problem_delete_url": "{% url 'online_test:test_del' 1 %}",
         "static_choice_detail_url": "{% url 'online_test:static_choice' 1 %}",
-        "static_judge_detail_url": "{% url 'online_test:static_judge'  1 %}",
+        "static_judge_detail_url": "{% url 'online_test:test_gerner' %}",
+        "auto_test_add_url": "{% url 'online_test:test_add'  %}",
         "test_add_url": "{% url 'online_test:test_add'  %}",
         "test": cur_test,
     }
@@ -173,10 +174,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                                     <thead>
                                                                     <tr>
                                                                         <th width="150">题型</th>
+                                                                        <th width="150">内容</th>
                                                                         <th width="150">科目</th>
                                                                         <th width="150">章节</th>
                                                                         <th width="150">知识点</th>
-                                                                        <th width="150">时间</th>
                                                                         <td width="100"></td>
                                                                         <td></td>
                                                                     </tr>
@@ -306,11 +307,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                     <thead>
                                                     <tr>
                                                         <th class="hidden"></th>
-                                                        <th width="100">题型</th>
-                                                        <th width="100">科目</th>
-                                                        <th width="100">章节</th>
+                                                        <th width="150">题型</th>
+                                                        <th width="150">内容</th>
+                                                        <th width="150">科目</th>
+                                                        <th width="150">章节</th>
                                                         <th width="150">知识点</th>
-                                                        <th width="100">时间</th>
                                                         <td width="100"></td>
                                                         <td></td>
                                                     </tr>

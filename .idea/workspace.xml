@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a1f85f77-22f6-4316-b321-4f9364550e99" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/online_test/static/online_test/js/test_generation.js" beforeDir="false" afterPath="$PROJECT_DIR$/online_test/static/online_test/js/test_generation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/online_test/templates/online_test/auto_test_generation.html" beforeDir="false" afterPath="$PROJECT_DIR$/online_test/templates/online_test/auto_test_generation.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/online_test/templates/online_test/problem_single_static_choice.html" beforeDir="false" afterPath="$PROJECT_DIR$/online_test/templates/online_test/problem_single_static_choice.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/online_test/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/online_test/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,8 +39,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/online_test/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="486" column="47" lean-forward="true" selection-start-line="486" selection-start-column="47" selection-end-line="486" selection-end-column="47" />
+            <state relative-caret-position="19">
+              <caret line="102" column="2" selection-start-line="101" selection-start-column="33" selection-end-line="102" selection-end-column="2" />
               <folding>
                 <element signature="e#16885#17391#0" />
                 <element signature="e#17417#17786#0" />
@@ -289,7 +290,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="267" y="29" width="1110" height="657" extended-state="0" />
+    <frame x="170" y="32" width="1110" height="657" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -297,9 +298,9 @@
       <window_info anchor="bottom" id="Database Changes" order="7" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.36872587" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.36872587" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32783884" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20857143" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20857143" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" />
@@ -323,7 +324,14 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="7" />
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/online_test/views.py</url>
+          <line>474</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="8" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -663,8 +671,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/online_test/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="486" column="47" lean-forward="true" selection-start-line="486" selection-start-column="47" selection-end-line="486" selection-end-column="47" />
+        <state relative-caret-position="19">
+          <caret line="102" column="2" selection-start-line="101" selection-start-column="33" selection-end-line="102" selection-end-column="2" />
           <folding>
             <element signature="e#16885#17391#0" />
             <element signature="e#17417#17786#0" />

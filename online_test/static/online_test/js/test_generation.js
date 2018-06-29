@@ -1,4 +1,25 @@
+var initialized = false;
 let data_save;
+function auto_check() {
+     let name = $("#auto-test-name");
+     let subject = $("#auto-test-subject").val();
+     let start_time = $("#auto-test-start-time").val();
+     let end_time = $("#auto-test-end-time").val();
+     if (name == ""||subject == ""||start_time == ""||end_time == "")
+         return false;
+     return true;
+}
+
+function manual_check() {
+     let name = $("#manual-test-name");
+     let subject = $("#manual-test-subject").val();
+     let start_time = $("#manual-test-start-time").val();
+     let end_time = $("#manual-test-end-time").val();
+     if (name == ""||subject == ""||start_time == ""||end_time == "")
+         return false;
+     return true;
+}
+
 $(document).ready(function () {
     data_save = data;
     $('#btn-search-problem').click(function () {
@@ -25,10 +46,10 @@ $(document).ready(function () {
                     let new_tr = $("<tr>" +
                         "<td class='hidden'>"  +judge_problems[index][index]["pk"] + "</td>" +
                         "<td>" + "判断" + "</td>" +
+                         "<td>" + judge_problems[index][index]["content"].slice(0, 10) +"..."+ "</td>" +
                         "<td>" + judge_problems[index][index]["subject"] + "</td>" +
                         "<td>" + judge_problems[index][index]["chapter"] + "</td>" +
                         "<td>" + judge_problems[index][index]["knowledge_point"] + "</td>" +
-                        "<td>" + "2018-01-12" + "</td>" +
                         "<td><button class='btn btn-primary btn-static-problem-detail' style='height:80%'>详细 </button></td>" +
                         "<td><button class='btn btn-primary btn-insert-test-problem' style='height:80%'> 添加到当前试卷</button></td>" +
                         "</tr>");
@@ -41,10 +62,10 @@ $(document).ready(function () {
                     let new_tr = $("<tr>" +
                         "<td class='hidden'>"  +choice_problem[index][index]["pk"] + "</td>" +
                         "<td>" + "选择" + "</td>" +
+                        "<td>" + choice_problem[index][index]["content"].slice(0, 10) +"..."+ "</td>" +
                         "<td>" + choice_problem[index][index]["subject"] + "</td>" +
                         "<td>" + choice_problem[index][index]["chapter"] + "</td>" +
                         "<td>" + choice_problem[index][index]["knowledge_point"] + "</td>" +
-                        "<td>" + "2018-01-12" + "</td>" +
                         "<td><button class='btn btn-primary btn-static-problem-detail' style='height:80%'>详细 </button></td>" +
                         "<td><button class='btn btn-primary btn-insert-test-problem' style='height:80%'> 添加到当前试卷</button></td>" +
                         "</tr>");
@@ -75,7 +96,7 @@ $(document).ready(function () {
        new_tr.append(col);
        col = $("<td>"+old_row.children("td:nth-child(5)").text()+"</td>");
        new_tr.append(col);
-       col = $("<td>"+"2018-05-06"+"</td>");
+       col = $("<td>"+old_row.children("td:nth-child(6)").text()+"</td>");
        new_tr.append(col);
        col = $( "<td><button  class='btn btn-primary btn-static-problem-detail' style='height:80%'>详细</button></td>");
        new_tr.append(col);
@@ -88,11 +109,12 @@ $(document).ready(function () {
         let pk = $(this).parent().parent().children("td:nth-child(1)").text();
         console.log(pk);
         let type = $(this).parent().parent().children("td:nth-child(2)").text();
-
         if (type == '判断') {
-            window.open(data_save.static_judge_detail_url);
+            let url = 'problem_bank/single_problem/static/judge/'+pk+"/";
+            window.open(url);
         } else {
-            window.open(data_save.static_choice_detail_url);
+            let url = 'problem_bank/single_problem/static/choice/'+pk+"/";
+            window.open(url);
         }
     });
 
@@ -114,6 +136,12 @@ $(document).ready(function () {
     });
 
     $('#init-auto-test').click(function () {
+        initialized = auto_check();
+        if (!initialized) {
+            alert("请将相应的数据填完整");
+            return;
+        }
+
         cur_test.name = $("#auto-test-name").val();
         cur_test.subject = $("#auto-test-subject").val();
         cur_test.start_time = $("#auto-test-start-time").val();
@@ -130,22 +158,31 @@ $(document).ready(function () {
         post_data["judge_num"] = $("#auto-test-judge-num").val();
 
         $.ajax({
-            url: data_save.judge_url,
+            url: data_save.auto_test_add_url,
             type: 'post',
             dataType: 'json',
             data: post_data,
             async: false,
             success: function (data) {
-                console.log(data)
-                cur_test.questions = data;
+                console.log(data);
+                alert('创建成功');
+
             },
             error: function (msg) {
                 console.log("failure");
                 console.log(msg);
+                alert('创建成功');
             }
         });
     });
     $('#init-manual-test').click(function () {
+
+        initialized = manual_check();
+        if (!initialized) {
+            alert("请将相应的数据填完整");
+            return;
+        }
+
         const post_data = {};
         cur_test.name = $("#manual-test-name").val();
         cur_test.subject = $("#manual-test-subject").val();
@@ -160,22 +197,27 @@ $(document).ready(function () {
             cur_test.questions.push(question);
 
         });
-        post_data['test'] = cur_test;
-
-        $.ajax({
-            url: data_save.judge_url,
-            type: 'post',
-            dataType: 'json',
-            data: post_data,
-            async: false,
-            success: function (data) {
-                if (data['result'] === "ok")
-                    alert('提交成功');
-            }
-        });
+        // post_data['test'] = cur_test;
+        //
+        // $.ajax({
+        //     url: data_save.judge_url,
+        //     type: 'post',
+        //     dataType: 'json',
+        //     data: post_data,
+        //     async: false,
+        //     success: function (data) {
+        //         if (data['result'] === "ok")
+        //             alert('提交成功');
+        //     }
+        // });
     });
 
     $('#submit-test').click(function () {
+        if (!initialized) {
+            alert("请先创建相关试卷");
+            return;
+        }
+
         const post_data = {};
         post_data["name"] = data_save.test.name;
         post_data["subject"] = data_save.test.subject;
@@ -185,6 +227,7 @@ $(document).ready(function () {
         $("#test-content-table-body").find("tr").each(function(){
             let tdArr = $(this).children();
             let question = {};
+            question['type'] = tdArr.eq(1).text() == "判断"?0:1;
             question['pk'] = tdArr.eq(0).text();
             questions.push(question);
 
